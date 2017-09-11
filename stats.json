@@ -5,8 +5,8 @@
       "path---regularizing-gradient-domain-ee5e5179658b1ac5490a.js.map"
     ],
     "component---src-pages-index-js": [
-      "component---src-pages-index-js-f4bd3924cd81c9fa8480.js",
-      "component---src-pages-index-js-f4bd3924cd81c9fa8480.js.map"
+      "component---src-pages-index-js-bfaadc1dfe97720586bc.js",
+      "component---src-pages-index-js-bfaadc1dfe97720586bc.js.map"
     ],
     "path---": [
       "path----557518bd178906f8d58a.js",
@@ -25,16 +25,8 @@
       "component---src-layouts-index-js-ab29d1cdc755964f992d.js.map"
     ],
     "path---index": [
-      "path---index-618dc5f2ebab018cd075.js",
-      "path---index-618dc5f2ebab018cd075.js.map"
-    ],
-    "component---src-pages-my-files-js": [
-      "component---src-pages-my-files-js-fd4c9a1c8e4502260f5b.js",
-      "component---src-pages-my-files-js-fd4c9a1c8e4502260f5b.js.map"
-    ],
-    "path---my-files": [
-      "path---my-files-c37e5fdbc8478818b460.js",
-      "path---my-files-c37e5fdbc8478818b460.js.map"
+      "path---index-0b8ea73f1873a9bad4c8.js",
+      "path---index-0b8ea73f1873a9bad4c8.js.map"
     ],
     "commons": [
       "commons-07cc4bd56523cc910c39.js",
@@ -49,18 +41,10 @@
       "path---bscthesis-c461b0970cddf353ac2c.js.map"
     ],
     "app": [
-      "app-d99023c6661fe40eb416.js",
+      "app-e9b8fd5f3ed8b576edf8.js",
       "build-js-styles.css",
-      "app-d99023c6661fe40eb416.js.map",
+      "app-e9b8fd5f3ed8b576edf8.js.map",
       "build-js-styles.css.map"
-    ],
-    "component---src-pages-about-js": [
-      "component---src-pages-about-js-85b708799c4a2b7167e7.js",
-      "component---src-pages-about-js-85b708799c4a2b7167e7.js.map"
-    ],
-    "path---about": [
-      "path---about-55e162d965852236f5d6.js",
-      "path---about-55e162d965852236f5d6.js.map"
     ]
   }
 }

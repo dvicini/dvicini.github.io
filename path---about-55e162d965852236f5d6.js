@@ -1,0 +1,2 @@
+webpackJsonp([0xf927f8900006],{"./node_modules/json-loader/index.js!./.cache/json/about.json":function(e,t){e.exports={data:{site:{siteMetadata:{title:"Delio Vicini"}}},pathContext:{}}}});
+//# sourceMappingURL=path---about-55e162d965852236f5d6.js.map

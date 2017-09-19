@@ -1,0 +1,2 @@
+webpackJsonp([0xfb5ed5405a27],{"./node_modules/json-loader/index.js!./.cache/json/mscthesis.json":function(e,s){e.exports={data:{projectsJson:{name:"Gradient-Domain Volumetric Path Tracing",abstract:"Currently abstract and text cannot be made available, as this work contains unpublished ideas.",authors:[{name:"Delio Vicini"}],published:"Master Thesis, ETH Zurich and Disney Research",year:"2017",url:"mscthesis",slides:null,teaser:null,teasercaption:null,pdf:null}},pathContext:{slug:"mscthesis"}}}});
+//# sourceMappingURL=path---mscthesis-37238856ddbaa5e1c75a.js.map

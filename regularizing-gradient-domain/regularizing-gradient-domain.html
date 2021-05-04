@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand" style="background-color: #26547f; height: 60px">
+        <div class="container-fluid" style="max-width:900px">
+            <div class="navbar-collapse collapse dual-collapse">
+                <a href="../index.html" style="text-decoration: none; color: white;">
+                    <h1 class="navbar-brand">Delio Vicini</h1>
+                </a>
+                <ul class="nav navbar-nav ms-auto">
+                    <li>
+                        <a href="https://www.linkedin.com/in/delio-vicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="d-flex justify-content-center mx-auto" id="icon" src="../resources/logo-linkedin.png" style="max-width: 30px; " alt=""></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/dvicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-github.png" style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?hl=en&user=5HYHY2UAAAAJ"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-scholar.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DelioVicini"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-twitter.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:900px;">
+
+<div class="row col-12">
+<h2>Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches</h2>
+</div>
+
+<div class="row col-12">
+<div>
+    <span>
+<a href="https://studios.disneyresearch.com/people/marco-manzi/">Marco Manzi</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.cs.umd.edu/~zwicker/">Matthias Zwicker</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+</div>
+</div>
+
+<div class="row col-12">
+    <h6>
+    <sup><small>1</small></sup>University of Bern,
+    </h6>
+</div>
+
+<div class="row">
+<h5>
+Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
+
+</div>
+
+
+<div class="row col-12">
+    <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
+
+    <p class="imagecaption">
+        Our regularized reconstruction for gradient-domain rendering obtains a high-quality image from a noisy base image, the sampled gradients, and auxiliary features (left). We (right) achieve significantly better images than standard L1 reconstruction (middle). The depicted features are, from left to right, the vertical and horizontal gradients, normals, texture values, positions and ambient occlusion values.
+    </p>
+</div>
+
+<div class="row col-12">
+    <h4>Abstract</h4>
+    <div>
+        <p>
+            We present a novel algorithm to reconstruct high-quality images from sampled pixels and gradients in gradient-domain rendering. Our approach extends screened Poisson reconstruction by adding additional regularization constraints. Our key idea is to exploit local patches in feature images, which contain per-pixels normals, textures, position, etc., to formulate these constraints. We describe a GPU implementation of our approach that runs on the order of seconds on megapixel images. We demonstrate a significant improvement in image quality over screened Poisson reconstruction under the L1 norm. Because we adapt the regularization constraints to the noise level in the input, our algorithm is consistent and converges to the ground truth.
+        </p>
+    </div>
+</div>
+
+<div class="row col-12">
+    <h4>Downloads</h4>
+    <div>
+        <ul>
+            <li>Publication:
+                <ul>
+                    <li class="pdf"><a href="FeaturePatchesForGPTReconstruction.pdf">Paper</a></li>
+                </ul>
+            </li>
+
+
+
+
+        </ul>
+    </div>
+</div>
+
+
+<div class="row col-12">
+    <h4>Text Reference</h4>
+    <div>
+        Marco Manzi,         Delio Vicini,         Matthias Zwicker.        Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches.
+        <em>Computer Graphics Forum (Proceedings of Eurographics)</em>,  2016.
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <h4 class="panel-title">BibTex Reference</h4>
+        <pre class="bibtex">@article {Manzi2016denoise,
+	author = {Manzi, Marco and Vicini, Delio and Zwicker, Matthias},
+	title = {Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches},
+	journal = {Computer Graphics Forum (Proceedings of Eurographics},
+	volume = {35},
+	number = {2},
+	issn = {1467-8659},
+	url = {http://dx.doi.org/10.1111/cgf.12829},
+	doi = {10.1111/cgf.12829},
+	pages = {263--273},
+	keywords = {Categories and Subject Descriptors (according to ACM CCS), I.3.3 [Computer Graphics]: Picture/Image Generation�Display Algorithms},
+	year = {2016},
+}</pre>
+    </div>
+</div>
+
+        <div id="footer" class="row">
+            <p>Copyright &copy; 2017&ndash;2021 Delio Vicini</p>
+        </div>
+    </div>
+    <!-- .container -->
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Denoising Deep Monte Carlo Renderings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand" style="background-color: #26547f; height: 60px">
+        <div class="container-fluid" style="max-width:900px">
+            <div class="navbar-collapse collapse dual-collapse">
+                <a href="../index.html" style="text-decoration: none; color: white;">
+                    <h1 class="navbar-brand">Delio Vicini</h1>
+                </a>
+                <ul class="nav navbar-nav ms-auto">
+                    <li>
+                        <a href="https://www.linkedin.com/in/delio-vicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="d-flex justify-content-center mx-auto" id="icon" src="../resources/logo-linkedin.png" style="max-width: 30px; " alt=""></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/dvicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-github.png" style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?hl=en&user=5HYHY2UAAAAJ"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-scholar.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DelioVicini"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-twitter.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:900px;">
+
+<div class="row col-12">
+<h2>Denoising Deep Monte Carlo Renderings</h2>
+</div>
+
+<div class="row col-12">
+<div>
+    <span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1,2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.linkedin.com/in/david-adler-5ab7b21/">David Adler</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://jannovak.info/">Jan Novák</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://research.nvidia.com/person/fabrice-rousselle">Fabrice Rousselle</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.linkedin.com/in/brent-burley-56972557/">Brent Burley</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+</div>
+</div>
+
+<div class="row col-12">
+    <h6>
+    <sup><small>1</small></sup>Walt Disney Animation Studios,
+    <sup><small>2</small></sup>Disney Research,
+    </h6>
+</div>
+
+<div class="row">
+<h5>
+Computer Graphics Forum, 2019</h5>
+
+</div>
+
+
+<div class="row col-12">
+    <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
+
+    <p class="imagecaption">
+        A production scene (a) rendered as a deep noisy image (b), denoised using our method (c), and composited (d) with a deep volume. Our algorithm removes a significant amount of the input Monte Carlo noise, while preserving the depth separation of the deep image. (c) Disney
+    </p>
+</div>
+
+<div class="row col-12">
+    <h4>Abstract</h4>
+    <div>
+        <p>
+            We present a novel algorithm to denoise deep Monte Carlo renderings, in which pixels contain multiple color values, each for a different range of depths. Deep images are a more expressive representation of the scene than conventional flat images. However, since each depth bin receives only a fraction of the flat pixel's samples, denoising the bins is harder due to the less accurate mean and variance estimates. Furthermore, deep images lack a regular structure in depth---the number of depth bins and their depth ranges vary across pixels. This prevents a straightforward application of patch-based distance metrics frequently used to improve the robustness of existing denoising filters. We address these constraints by combining a flat image-space Non-Local Means filter operating on pixel colors with a deep cross-bilateral filter operating on auxiliary features (albedo, normal, etc.). Our approach significantly reduces noise in deep images while preserving their structure. To our best knowledge, our algorithm is the first to enable efficient deep-compositing workflows with denoised Monte Carlo renderings. We demonstrate the performance of our filter on a range of scenes highlighting the challenges and advantages of denoising deep images.
+        </p>
+    </div>
+</div>
+
+<div class="row col-12">
+    <h4>Downloads</h4>
+    <div>
+        <ul>
+            <li>Publication:
+                <ul>
+                    <li class="pdf"><a href="DeepZDenoising.pdf">Paper</a></li>
+                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2018Denoising.zip">Supplemental material</a></li>
+                </ul>
+            </li>
+
+
+
+
+        </ul>
+    </div>
+</div>
+
+
+<div class="row col-12">
+    <h4>Text Reference</h4>
+    <div>
+        Delio Vicini,         David Adler,         Jan Novák,         Fabrice Rousselle,         Brent Burley.        Denoising Deep Monte Carlo Renderings.
+        <em>Computer Graphics Forum</em>,  2019.
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <h4 class="panel-title">BibTex Reference</h4>
+        <pre class="bibtex">@article{Vicini2019Denoising,
+  author    = {Vicini, Delio and Adler, David and Nov\'ak, Jan and Rousselle, Fabrice and Burley,  Brent},
+  title     = {Denoising Deep Monte Carlo Renderings},
+  journal   = {Computer Graphics Forum},
+  year      = {2019},
+  month     = aug,
+  doi       = {10.1111/cgf.13533},
+  volume    = {38},
+  number    = {1},
+  pages     = {316-327},
+  publisher = {The Eurographs Association \& John Wiley \& Sons, Ltd.},
+  address   = {Chichester, UK}
+}</pre>
+    </div>
+</div>
+
+        <div id="footer" class="row">
+            <p>Copyright &copy; 2017&ndash;2021 Delio Vicini</p>
+        </div>
+    </div>
+    <!-- .container -->
+
+
+
+
+</body>
+</html>

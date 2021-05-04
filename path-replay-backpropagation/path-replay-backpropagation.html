@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand" style="background-color: #26547f; height: 60px">
+        <div class="container-fluid" style="max-width:900px">
+            <div class="navbar-collapse collapse dual-collapse">
+                <a href="../index.html" style="text-decoration: none; color: white;">
+                    <h1 class="navbar-brand">Delio Vicini</h1>
+                </a>
+                <ul class="nav navbar-nav ms-auto">
+                    <li>
+                        <a href="https://www.linkedin.com/in/delio-vicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="d-flex justify-content-center mx-auto" id="icon" src="../resources/logo-linkedin.png" style="max-width: 30px; " alt=""></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/dvicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-github.png" style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?hl=en&user=5HYHY2UAAAAJ"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-scholar.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DelioVicini"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-twitter.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:900px;">
+
+<div class="row col-12">
+<h2>Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time</h2>
+</div>
+
+<div class="row col-12">
+<div>
+    <span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="http://rgl.epfl.ch/people/speierers">Sébastien Speierer</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="http://rgl.epfl.ch/people/wjakob">Wenzel Jakob</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+</div>
+</div>
+
+<div class="row col-12">
+    <h6>
+    <sup><small>1</small></sup>École Polytechnique Fédérale de Lausanne (EPFL),
+    </h6>
+</div>
+
+<div class="row">
+<h5>
+ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
+
+</div>
+
+
+<div class="row col-12">
+    <img src="teaser.jpg" alt="Teaser" style="max-width: 100%;"/>
+
+    <p class="imagecaption">
+        Inverse reconstruction of a scene with complex lighting and heterogeneous structure. Given the initialization (a), we seek to reconstruct the target (b) involving normal-mapped surface variation and roughness changes on the fish sculpture, and the addition of a plant based on triangular geometry. Using three rendered views of the target, we apply our proposed path replay backpropagation (PRB) (c) and a linear-time version of radiative backpropagation (RB) [Nimier-David et al. 2020] (d) to reconstruct the modified sculpture and a heterogeneous medium approximating the plant. Our method computes unbiased gradients and is able to converge to a higher-quality solution at equal time. The second and third rows show insets and PRB's convergence over time.
+    </p>
+</div>
+
+<div class="row col-12">
+    <h4>Abstract</h4>
+    <div>
+        <p>
+            Differentiable physically-based rendering has become an indispensable tool for solving inverse problems involving light. Most applications in this area jointly optimize a large set of scene parameters to minimize an objective function, in which case reverse-mode differentiation is the method of choice for obtaining parameter gradients. However, existing techniques that perform the necessary differentiation step suffer from either statistical bias or a prohibitive cost in terms of memory and computation time. For example, standard techniques for automatic differentiation based on program transformation or Wengert tapes lead to impracticably large memory usage when applied to physically-based rendering algorithms. A recently proposed adjoint method by Nimier-David et al. 2020 reduces this to a constant memory footprint, but the computation time for unbiased gradient estimates then becomes quadratic in the number of scattering events along a light path. This is problematic when the scene contains highly scattering materials like participating media. In this paper, we propose a new unbiased backpropagation algorithm for rendering that only requires constant memory, and whose computation time is linear in the number of scattering events (i.e., just like path tracing). Our approach builds on the invertibility of the local Jacobian at scattering interactions to recover the various quantities needed for reverse-mode differentiation. Our method also extends to specular materials such as smooth dielectrics and conductors that cannot be handled by prior work.
+        </p>
+    </div>
+</div>
+
+<div class="row col-12">
+    <h4>Downloads</h4>
+    <div>
+        <ul>
+            <li>Publication:
+                <ul>
+                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2021PathReplay_2.pdf">Paper</a></li>
+                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2021PathReplay_1.pdf">Supplemental material</a></li>
+                </ul>
+            </li>
+
+
+
+
+        </ul>
+    </div>
+</div>
+
+
+<div class="row col-12">
+    <h4>Text Reference</h4>
+    <div>
+        Delio Vicini,         Sébastien Speierer,         Wenzel Jakob.        Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time.
+        <em>ACM Transactions on Graphics (Proceedings of <b>SIGGRAPH</b>)</em>, 40(4), August 2021.
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <h4 class="panel-title">BibTex Reference</h4>
+        <pre class="bibtex">@article{Vicini2021PathReplayBackprop,
+  author  = {Vicini, Delio and Speierer, Sébastien and Jakob, Wenzel},
+  title   = {Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time},
+  journal = {ACM Transactions on Graphics (Proceedings of SIGGRAPH)},
+  volume  = {40},
+  number  = {4},
+  year    = {2021},
+  month   = aug,
+  pages   = {108:1--108:14},
+  doi     = {10.1145/3450626.3459804},
+}
+</pre>
+    </div>
+</div>
+
+        <div id="footer" class="row">
+            <p>Copyright &copy; 2017&ndash;2021 Delio Vicini</p>
+        </div>
+    </div>
+    <!-- .container -->
+
+
+
+
+</body>
+</html>

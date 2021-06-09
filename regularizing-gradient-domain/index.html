@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Denoising Deep Monte Carlo Renderings</title>
+    <title>Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
@@ -45,34 +45,29 @@
     <div class="container" style="max-width:900px;">
 
 <div class="row col-12">
-<h2>Denoising Deep Monte Carlo Renderings</h2>
+<h2>Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches</h2>
 </div>
 
 <div class="row col-12">
 <div>
     <span>
-<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1,2</small></sup>  &nbsp; &nbsp;</span>
+<a href="https://studios.disneyresearch.com/people/marco-manzi/">Marco Manzi</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
     <span>
-<a href="https://www.linkedin.com/in/david-adler-5ab7b21/">David Adler</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
     <span>
-<a href="https://jannovak.info/">Jan Novák</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
-    <span>
-<a href="https://research.nvidia.com/person/fabrice-rousselle">Fabrice Rousselle</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
-    <span>
-<a href="https://www.linkedin.com/in/brent-burley-56972557/">Brent Burley</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+<a href="https://www.cs.umd.edu/~zwicker/">Matthias Zwicker</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
 </div>
 </div>
 
 <div class="row col-12">
     <h6>
-    <sup><small>1</small></sup>Walt Disney Animation Studios,
-    <sup><small>2</small></sup>Disney Research,
+    <sup><small>1</small></sup>University of Bern,
     </h6>
 </div>
 
 <div class="row">
 <h5>
-Computer Graphics Forum, 2019</h5>
+Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
 
 </div>
 
@@ -81,7 +76,7 @@ Computer Graphics Forum, 2019</h5>
     <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
 
     <p class="imagecaption">
-        A production scene (a) rendered as a deep noisy image (b), denoised using our method (c), and composited (d) with a deep volume. Our algorithm removes a significant amount of the input Monte Carlo noise, while preserving the depth separation of the deep image. (c) Disney
+        Our regularized reconstruction for gradient-domain rendering obtains a high-quality image from a noisy base image, the sampled gradients, and auxiliary features (left). We (right) achieve significantly better images than standard L1 reconstruction (middle). The depicted features are, from left to right, the vertical and horizontal gradients, normals, texture values, positions and ambient occlusion values.
     </p>
 </div>
 
@@ -89,10 +84,12 @@ Computer Graphics Forum, 2019</h5>
     <h4>Abstract</h4>
     <div>
         <p>
-            We present a novel algorithm to denoise deep Monte Carlo renderings, in which pixels contain multiple color values, each for a different range of depths. Deep images are a more expressive representation of the scene than conventional flat images. However, since each depth bin receives only a fraction of the flat pixel's samples, denoising the bins is harder due to the less accurate mean and variance estimates. Furthermore, deep images lack a regular structure in depth---the number of depth bins and their depth ranges vary across pixels. This prevents a straightforward application of patch-based distance metrics frequently used to improve the robustness of existing denoising filters. We address these constraints by combining a flat image-space Non-Local Means filter operating on pixel colors with a deep cross-bilateral filter operating on auxiliary features (albedo, normal, etc.). Our approach significantly reduces noise in deep images while preserving their structure. To our best knowledge, our algorithm is the first to enable efficient deep-compositing workflows with denoised Monte Carlo renderings. We demonstrate the performance of our filter on a range of scenes highlighting the challenges and advantages of denoising deep images.
+            We present a novel algorithm to reconstruct high-quality images from sampled pixels and gradients in gradient-domain rendering. Our approach extends screened Poisson reconstruction by adding additional regularization constraints. Our key idea is to exploit local patches in feature images, which contain per-pixels normals, textures, position, etc., to formulate these constraints. We describe a GPU implementation of our approach that runs on the order of seconds on megapixel images. We demonstrate a significant improvement in image quality over screened Poisson reconstruction under the L1 norm. Because we adapt the regularization constraints to the noise level in the input, our algorithm is consistent and converges to the ground truth.
         </p>
     </div>
 </div>
+
+
 
 <div class="row col-12">
     <h4>Downloads</h4>
@@ -100,8 +97,7 @@ Computer Graphics Forum, 2019</h5>
         <ul>
             <li>Publication:
                 <ul>
-                    <li class="pdf"><a href="DeepZDenoising.pdf">Paper</a></li>
-                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2018Denoising.zip">Supplemental material</a></li>
+                    <li class="pdf"><a href="FeaturePatchesForGPTReconstruction.pdf">Paper</a></li>
                 </ul>
             </li>
 
@@ -116,36 +112,38 @@ Computer Graphics Forum, 2019</h5>
 <div class="row col-12">
     <h4>Text Reference</h4>
     <div>
-        Delio Vicini,         David Adler,         Jan Novák,         Fabrice Rousselle,         Brent Burley.        Denoising Deep Monte Carlo Renderings.
-        <em>Computer Graphics Forum</em>,  2019.
+    <p>
+        Marco Manzi,         Delio Vicini,         Matthias Zwicker.        Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches.
+        <em>Computer Graphics Forum (Proceedings of Eurographics)</em>,  2016.
+    </p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
     <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@article{Vicini2019Denoising,
-  author    = {Vicini, Delio and Adler, David and Nov\'ak, Jan and Rousselle, Fabrice and Burley,  Brent},
-  title     = {Denoising Deep Monte Carlo Renderings},
-  journal   = {Computer Graphics Forum},
-  year      = {2019},
-  month     = aug,
-  doi       = {10.1111/cgf.13533},
-  volume    = {38},
-  number    = {1},
-  pages     = {316-327},
-  publisher = {The Eurographs Association \& John Wiley \& Sons, Ltd.},
-  address   = {Chichester, UK}
+        <pre class="bibtex">@article {Manzi2016denoise,
+	author = {Manzi, Marco and Vicini, Delio and Zwicker, Matthias},
+	title = {Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches},
+	journal = {Computer Graphics Forum (Proceedings of Eurographics},
+	volume = {35},
+	number = {2},
+	issn = {1467-8659},
+	url = {http://dx.doi.org/10.1111/cgf.12829},
+	doi = {10.1111/cgf.12829},
+	pages = {263--273},
+	keywords = {Categories and Subject Descriptors (according to ACM CCS), I.3.3 [Computer Graphics]: Picture/Image Generation�Display Algorithms},
+	year = {2016},
 }</pre>
     </div>
 </div>
 
+        <hr>
         <div id="footer" class="row">
-            <p>Copyright &copy; 2017&ndash;2021 Delio Vicini</p>
+            <p>&copy; 2021 Delio Vicini</p>
         </div>
     </div>
     <!-- .container -->
-
 
 
 

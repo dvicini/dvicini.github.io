@@ -1,0 +1,1333 @@
+WEBVTT
+
+1
+00:00:02.530 --> 00:00:05.800
+Hi, I am Delio Vicini and in the following I will present our paper on
+
+2
+00:00:06.130 --> 00:00:08.860
+“A Non-Exponential Transmittance Model for Volumetric Scene
+
+3
+00:00:08.860 --> 00:00:13.100
+Representations”. I am a 4th year PhD student at EPFL and worked on
+
+4
+00:00:13.100 --> 00:00:14.910
+this project with Facebook Reality Labs.
+
+5
+00:00:15.240 --> 00:00:18.740
+This is joint work with Wenzel Jakob from EPFL and Anton Kaplanyan
+
+6
+00:00:18.740 --> 00:00:20.020
+from Facebook Reality Labs.
+
+7
+00:00:21.070 --> 00:00:23.620
+In computer graphics, we are continuously increasing the complexity of
+
+8
+00:00:23.620 --> 00:00:25.380
+scenes that we are trying to store and render.
+
+9
+00:00:26.040 --> 00:00:29.530
+However, while assets increase in complexity, frequently we run into
+
+10
+00:00:29.530 --> 00:00:32.910
+situations where a complex asset is only visible on a small number of
+
+11
+00:00:32.910 --> 00:00:36.450
+pixels. Loading and rendering the full asset in such a situation can
+
+12
+00:00:36.450 --> 00:00:39.840
+be wasteful, in particular if we are considering devices with limited
+
+13
+00:00:39.840 --> 00:00:42.900
+computational resources, such as standalone VR headsets.
+
+14
+00:00:43.640 --> 00:00:46.900
+Fundamentally, we observe a mismatch between scene complexity and the
+
+15
+00:00:46.900 --> 00:00:48.220
+desired render resolution.
+
+16
+00:00:49.740 --> 00:00:52.750
+Level of detail methods try to mitigate this issue by converting the
+
+17
+00:00:52.750 --> 00:00:55.960
+scene or individual objects into a representation at the desired
+
+18
+00:00:56.000 --> 00:00:59.990
+quality level. One way to reduce the scene complexity would be to
+
+19
+00:00:59.990 --> 00:01:01.630
+simply decimate the geometry.
+
+20
+00:01:02.110 --> 00:01:05.519
+However, this often does not preserve appearance and works poorly in
+
+21
+00:01:05.519 --> 00:01:08.600
+particular on aggregate geometry, such as the trees in the
+
+22
+00:01:08.600 --> 00:01:12.420
+foreground. An alternative approach is to try to convert the scene
+
+23
+00:01:12.420 --> 00:01:14.430
+into a voxelized volumetric representation.
+
+24
+00:01:15.480 --> 00:01:17.770
+There are several advantages to using a volumetric scene
+
+25
+00:01:17.770 --> 00:01:21.730
+representation. A voxelized representation can naturally be scaled to
+
+26
+00:01:21.730 --> 00:01:25.270
+the right resolution. We can pick the resolution of the voxel grid
+
+27
+00:01:25.570 --> 00:01:27.970
+depending on the size of the asset in the rendered image.
+
+28
+00:01:28.840 --> 00:01:31.770
+Additionally, the set of voxels which are not empty is typically
+
+29
+00:01:31.770 --> 00:01:34.990
+sparse, so the memory consumption of the volumetric representation
+
+30
+00:01:34.990 --> 00:01:39.350
+scales favorably. The terms “voxelized” or “volumetric”
+
+31
+00:01:39.350 --> 00:01:42.290
+representation are quite generic, so I would like to make it a bit
+
+32
+00:01:42.320 --> 00:01:44.520
+more clear what I mean by such representation.
+
+33
+00:01:45.380 --> 00:01:48.990
+When rendering surfaces, we typically sample light paths by starting
+
+34
+00:01:48.990 --> 00:01:51.860
+from the camera and tracing through the scene until we hit a light
+
+35
+00:01:51.860 --> 00:01:55.210
+source. The scene’s geometry is usually represented by triangle
+
+36
+00:01:55.210 --> 00:01:59.350
+meshes. Our goal is now to replace this process by volume rendering,
+
+37
+00:01:59.710 --> 00:02:02.640
+where we sample paths in a participating medium approximating the
+
+38
+00:02:02.640 --> 00:02:06.610
+scene. The parameters of the participating medium can for example be
+
+39
+00:02:06.610 --> 00:02:10.380
+stored on a grid. What’s interesting here, is that the theory of
+
+40
+00:02:10.380 --> 00:02:13.230
+participating media has been derived to render phenomena such as
+
+41
+00:02:13.230 --> 00:02:14.440
+smoke or clouds.
+
+42
+00:02:15.570 --> 00:02:18.640
+The question is now whether can we represent an arbitrary scene as a
+
+43
+00:02:18.640 --> 00:02:19.820
+participating medium?
+
+44
+00:02:20.300 --> 00:02:23.340
+That scene might contain hard surfaces, such as for example the
+
+45
+00:02:23.340 --> 00:02:27.600
+Stanford bunny. At first representing arbitrary scenes as
+
+46
+00:02:27.600 --> 00:02:30.210
+participating media might seem a bit of a stretch.
+
+47
+00:02:30.830 --> 00:02:33.550
+However, we can see that this makes sense by considering the
+
+48
+00:02:33.550 --> 00:02:36.780
+appearance of objects as they are further and further away from the
+
+49
+00:02:36.780 --> 00:02:41.840
+camera. These trees are completely solid objects with triangles
+
+50
+00:02:41.840 --> 00:02:43.410
+representing leaves and branches.
+
+51
+00:02:44.150 --> 00:02:47.730
+However, as we decrease the render resolution, we see that more and
+
+52
+00:02:47.730 --> 00:02:50.740
+more regions appear semitransparent, or “volume-like”.
+
+53
+00:02:52.180 --> 00:02:55.080
+So far, I’ve mentioned level of detail as a motivation to investigate
+
+54
+00:02:55.080 --> 00:02:56.680
+volumetric scene representations.
+
+55
+00:02:57.080 --> 00:02:59.540
+But this is not the only application of such representations.
+
+56
+00:03:00.210 --> 00:03:02.950
+We have recently seen volumetric scene representations become more and
+
+57
+00:03:02.950 --> 00:03:05.270
+more popular for image-based scene reconstruction.
+
+58
+00:03:05.950 --> 00:03:09.630
+Given a set of reference images, we would like to reconstruct a
+
+59
+00:03:09.630 --> 00:03:12.020
+volumetric representation of a real scene.
+
+60
+00:03:12.830 --> 00:03:15.230
+Volume rendering is naturally a differentiable operation.
+
+61
+00:03:15.690 --> 00:03:18.410
+Theref ore, we can use gradient descent to optimize the volumetric
+
+62
+00:03:18.410 --> 00:03:21.080
+scene representation to match the observed images.
+
+63
+00:03:22.460 --> 00:03:24.780
+Obviously, our paper is not the first to use a volumetric
+
+64
+00:03:24.780 --> 00:03:27.530
+representation for either level of detail or inverse rendering.
+
+65
+00:03:28.050 --> 00:03:30.240
+There has been a large amount of prior work on both these
+
+66
+00:03:30.240 --> 00:03:32.560
+applications of volumetric scene representations.
+
+67
+00:03:33.980 --> 00:03:37.200
+Several papers have proposed volumetric representations for level of
+
+68
+00:03:37.200 --> 00:03:38.260
+detail applications.
+
+69
+00:03:38.870 --> 00:03:41.390
+They proposed different ways to work around the limitations of
+
+70
+00:03:41.390 --> 00:03:44.230
+conventional volume rendering models to better approximate scenes
+
+71
+00:03:44.230 --> 00:03:45.330
+containing surfaces.
+
+72
+00:03:46.810 --> 00:03:49.950
+For image-based reconstruction, we have recently seen the use of
+
+73
+00:03:50.270 --> 00:03:53.020
+emissive volumes in combination with neural networks.
+
+74
+00:03:53.590 --> 00:03:56.550
+Additionally, volumetric representations have also been optimized
+
+75
+00:03:56.550 --> 00:03:59.710
+considering a direct illumination model, or even full global
+
+76
+00:03:59.710 --> 00:04:01.840
+illumination using the Mitsuba 2 renderer.
+
+77
+00:04:03.170 --> 00:04:06.050
+Fundamentally, in volume rendering, there are two main functions which
+
+78
+00:04:06.050 --> 00:04:07.560
+determine the appearance of a volume.
+
+79
+00:04:08.150 --> 00:04:09.670
+The first one is the phase function.
+
+80
+00:04:10.090 --> 00:04:13.660
+Similar to a BSDF for surface rendering, the phase function describes
+
+81
+00:04:13.660 --> 00:04:15.800
+the angular distribution of scattering in a volume.
+
+82
+00:04:16.769 --> 00:04:18.260
+The second one is the transmittance.
+
+83
+00:04:18.620 --> 00:04:21.410
+The transmittance function tells us how much radiance can reach one
+
+84
+00:04:21.410 --> 00:04:22.660
+point from the other in the medium.
+
+85
+00:04:23.840 --> 00:04:26.780
+In our work, we build on the observation that conventional
+
+86
+00:04:26.780 --> 00:04:30.060
+transmittance models are insufficient when we try to approximate
+
+87
+00:04:30.160 --> 00:04:31.670
+arbitrary scenes as volumes.
+
+88
+00:04:32.260 --> 00:04:35.600
+Therefore, we introduce a new transmittance model that is better
+
+89
+00:04:35.600 --> 00:04:37.870
+suited to represent arbitrary scenes as a volume.
+
+90
+00:04:38.820 --> 00:04:41.980
+In this paper we focus on the transmittance but improving the
+
+91
+00:04:41.980 --> 00:04:44.550
+representation power of the phase function would be an interesting
+
+92
+00:04:44.550 --> 00:04:45.700
+avenue for future work.
+
+93
+00:04:47.210 --> 00:04:50.220
+More precisely, we show that scene representation benefits from a
+
+94
+00:04:50.220 --> 00:04:52.030
+non-exponential transmittance formulation.
+
+95
+00:04:52.950 --> 00:04:55.850
+We show how to efficiently compute gradients through this new model
+
+96
+00:04:56.080 --> 00:04:57.900
+to allow optimization of its parameters.
+
+97
+00:04:58.370 --> 00:05:01.100
+We then show applications of our model to appearance prefiltering for
+
+98
+00:05:01.100 --> 00:05:04.230
+level of detail, scene reconstruction using differentiable rendering
+
+99
+00:05:04.590 --> 00:05:05.890
+and neural radiance fields.
+
+100
+00:05:06.420 --> 00:05:09.280
+We found that having an improved volumetric scene representation can
+
+101
+00:05:09.280 --> 00:05:10.850
+benefit all these applications.
+
+102
+00:05:11.670 --> 00:05:14.610
+In the following, I will talk about the model itself and the
+
+103
+00:05:14.610 --> 00:05:18.720
+applications. For the details on the gradient computation, please see
+
+104
+00:05:18.720 --> 00:05:23.000
+the paper. Let’s now have a closer look at how transmittance is
+
+105
+00:05:23.000 --> 00:05:26.310
+usually defined. The standard assumption we make in participating
+
+106
+00:05:26.310 --> 00:05:29.950
+media is that at a microscopic level they consist of uncorrelated
+
+107
+00:05:29.950 --> 00:05:33.240
+particles. If we explicitly trace rays in a collection of
+
+108
+00:05:33.310 --> 00:05:36.400
+uncorrelated particles, we can numerically estimate the resulting
+
+109
+00:05:36.400 --> 00:05:40.180
+transmittance. The transmittance can be computed as the probability
+
+110
+00:05:40.180 --> 00:05:41.730
+of exceeding a certain distance.
+
+111
+00:05:42.540 --> 00:05:46.120
+For the case of uncorrelated particles, we obtain an exponential
+
+112
+00:05:46.220 --> 00:05:50.040
+transmittance function. This is not surprising and is what we usually
+
+113
+00:05:50.040 --> 00:05:51.150
+use for volume rendering.
+
+114
+00:05:53.050 --> 00:05:56.390
+The assumption of the medium consisting of uncorrelated particles does
+
+115
+00:05:56.390 --> 00:06:00.140
+not always hold. Suppose we replace the uncorrelated particles by a
+
+116
+00:06:00.140 --> 00:06:03.880
+part of a surface we get an entirely different transmittance falloff.
+
+117
+00:06:04.400 --> 00:06:07.090
+In this case, the transmittance will be linear, which is quite
+
+118
+00:06:07.090 --> 00:06:08.130
+different from exponential.
+
+119
+00:06:08.580 --> 00:06:11.190
+In particular, the transmittance will reach exactly zero.
+
+120
+00:06:11.710 --> 00:06:14.380
+This is already an indication, that using the standard exponential
+
+121
+00:06:14.380 --> 00:06:17.480
+transmittance model might not be such a good fit to represent scenes
+
+122
+00:06:17.480 --> 00:06:18.760
+containing hard surfaces.
+
+123
+00:06:19.640 --> 00:06:22.120
+We can do similar numerical experiments on a real scene.
+
+124
+00:06:22.630 --> 00:06:25.710
+Here, we trace a beam of rays and evaluate the transmittance
+
+125
+00:06:25.710 --> 00:06:29.520
+numerically. This beam primarily intersects the foliage of the trees
+
+126
+00:06:29.520 --> 00:06:33.080
+in the foreground. The dashed line here is an analytic exponential
+
+127
+00:06:33.080 --> 00:06:36.100
+transmittance model. It closely matches the behavior observed
+
+128
+00:06:36.100 --> 00:06:40.330
+numerically. This is expected since the tree leaves are not that
+
+129
+00:06:40.330 --> 00:06:42.280
+different from uncorrelated particles.
+
+130
+00:06:43.380 --> 00:06:46.350
+For a beam intersecting with the roof of the building, we get linear
+
+131
+00:06:46.350 --> 00:06:47.500
+transmittance as expected.
+
+132
+00:06:48.450 --> 00:06:52.180
+Finally, if a beam intersects both the building and the trees, we see
+
+133
+00:06:52.180 --> 00:06:53.550
+a mix of the two behaviors.
+
+134
+00:06:54.210 --> 00:06:56.940
+In our work, we build on these observations and propose a
+
+135
+00:06:56.940 --> 00:06:59.700
+non-exponential transmittance model that is better suited to
+
+136
+00:06:59.700 --> 00:07:02.830
+represent arbitrary 3D scenes as a participating medium.
+
+137
+00:07:04.630 --> 00:07:07.350
+Non-exponential transmittance formulations have been explored in a few
+
+138
+00:07:07.350 --> 00:07:08.670
+papers in computer graphics.
+
+139
+00:07:09.220 --> 00:07:11.730
+Non-exponential transmittance occurs for example when rendering
+
+140
+00:07:11.730 --> 00:07:15.510
+granular media, such as this sandcastle made up of individually
+
+141
+00:07:15.510 --> 00:07:16.580
+modeled grains of sand.
+
+142
+00:07:17.420 --> 00:07:20.070
+A non-exponential transmittance has also been considered to expand
+
+143
+00:07:20.070 --> 00:07:21.900
+the appearance space of subsurface scattering.
+
+144
+00:07:22.740 --> 00:07:25.620
+More recently, Bitterli and colleagues as well as Jarabe and
+
+145
+00:07:25.620 --> 00:07:28.850
+colleagues adapted the radiative transport framework to support
+
+146
+00:07:28.850 --> 00:07:33.000
+non-exponential media. These papers are focused on the theory on how
+
+147
+00:07:33.000 --> 00:07:36.200
+to combine non-exponential media with surfaces and bidirectional
+
+148
+00:07:36.200 --> 00:07:39.930
+rendering algorithms. In our work, we build on these prior works to
+
+149
+00:07:39.930 --> 00:07:43.060
+expand non-exponential transmittance models to be better suited for
+
+150
+00:07:43.060 --> 00:07:47.940
+scene representation. To use participating media for volumetric scene
+
+151
+00:07:47.940 --> 00:07:51.470
+representation, we are interested in the heterogeneous case, where
+
+152
+00:07:51.470 --> 00:07:53.520
+the medium parameters are spatially varying.
+
+153
+00:07:54.070 --> 00:07:57.400
+For an exponential medium, the transmittance can be computed by taking
+
+154
+00:07:57.400 --> 00:08:00.540
+the exponential of the negative integral over extinction values.
+
+155
+00:08:01.100 --> 00:08:04.580
+The extinction coefficient controls how optically dense the medium
+
+156
+00:08:04.610 --> 00:08:08.280
+is. The inner integral can for example be evaluated using ray
+
+157
+00:08:08.280 --> 00:08:11.010
+marching, where the medium is sampled in regular steps.
+
+158
+00:08:12.290 --> 00:08:15.410
+This integral over extinction is also called the optical depth “tau”.
+
+159
+00:08:16.790 --> 00:08:19.630
+Starting from the exponential transmittance, we can introduce a
+
+160
+00:08:19.630 --> 00:08:22.510
+non-exponential transmittance by replacing the exponential function
+
+161
+00:08:22.510 --> 00:08:24.400
+by a more general transmittance function “f”.
+
+162
+00:08:25.380 --> 00:08:28.910
+The function “f” is function of the optical depth tau computed from
+
+163
+00:08:28.910 --> 00:08:32.409
+the medium’s extinction. In prior work this function “f” was assumed
+
+164
+00:08:32.409 --> 00:08:35.720
+to be fixed. So, what this gives us is a model where we can spatially
+
+165
+00:08:35.720 --> 00:08:38.809
+vary the medium extinction, but the transmittance behavior itself
+
+166
+00:08:38.809 --> 00:08:43.250
+remains fixed. In our work, we make this function “f” spatially
+
+167
+00:08:43.250 --> 00:08:47.120
+varying too. We do this because we observed that the transmittance
+
+168
+00:08:47.120 --> 00:08:49.260
+behavior in a real scene isn’t really fixed.
+
+169
+00:08:50.150 --> 00:08:53.330
+We need to spatially vary the transmittance behavior to be able to
+
+170
+00:08:53.330 --> 00:08:56.590
+support exponential and linear transmittance as well as the
+
+171
+00:08:56.590 --> 00:08:57.650
+combination of the two.
+
+172
+00:08:59.920 --> 00:09:02.250
+We propose a solution to this problem in two steps.
+
+173
+00:09:02.730 --> 00:09:05.110
+First, we define a parametric transmittance function “f”.
+
+174
+00:09:05.510 --> 00:09:08.790
+For simplicity, we chose to just interpolate between exponential and
+
+175
+00:09:08.790 --> 00:09:12.170
+linear behavior. The interpolation is controlled by the parameter
+
+176
+00:09:12.170 --> 00:09:13.540
+gamma between 0 and 1.
+
+177
+00:09:14.840 --> 00:09:17.840
+Plotting the transmittance for different values of gamma we can see
+
+178
+00:09:17.890 --> 00:09:21.100
+how we can interpolate between exponential and linear transmittance.
+
+179
+00:09:22.200 --> 00:09:25.590
+Intuitively, what we would like to do now is to stitch different
+
+180
+00:09:25.590 --> 00:09:27.190
+transmittance behaviors together.
+
+181
+00:09:28.100 --> 00:09:30.910
+Let’s say we initially encounter a region with linear transmittance.
+
+182
+00:09:31.850 --> 00:09:34.870
+Then a region with exponential transmittance, and finally again
+
+183
+00:09:34.870 --> 00:09:35.880
+linear transmittance.
+
+184
+00:09:37.070 --> 00:09:40.370
+Our goal is to combine these transmittance functions such that the
+
+185
+00:09:40.370 --> 00:09:43.740
+resulting function remains continuous and physically plausible.
+
+186
+00:09:44.380 --> 00:09:47.490
+We also would like to do that in a way that is not depending on the
+
+187
+00:09:47.490 --> 00:09:50.510
+underlying specific representation of the medium.
+
+188
+00:09:52.480 --> 00:09:53.840
+This is exactly what we do now.
+
+189
+00:09:54.950 --> 00:09:57.360
+We can translate this idea of stitching together transmittance
+
+190
+00:09:57.360 --> 00:09:59.070
+behaviors into the continuous form.
+
+191
+00:10:00.620 --> 00:10:03.830
+We start with the prior non-exponential transmittance formulation
+
+192
+00:10:03.830 --> 00:10:07.110
+where “f” was fixed. We then first expand this expression using the
+
+193
+00:10:07.110 --> 00:10:08.690
+fundamental theorem of calculus.
+
+194
+00:10:09.130 --> 00:10:11.770
+Similar expressions have actually been used for exponential
+
+195
+00:10:11.770 --> 00:10:14.610
+transmittances in the paper by Georgiev and colleagues.
+
+196
+00:10:15.300 --> 00:10:19.070
+We then apply the chain rule to simplify further and replace the inner
+
+197
+00:10:19.070 --> 00:10:21.900
+optical depth integral by the inverse function “f” applied to the
+
+198
+00:10:21.900 --> 00:10:26.020
+transmittance. This simply just uses the definition from the first
+
+199
+00:10:26.020 --> 00:10:29.780
+line. Finally, this then allows us to introduce the additional
+
+200
+00:10:29.780 --> 00:10:32.290
+parameter gamma. Gamma is now spatially varying.
+
+201
+00:10:33.580 --> 00:10:36.050
+Now, let’s have a look at how we can use this new transmittance model
+
+202
+00:10:36.050 --> 00:10:37.850
+for appearance prefiltering for level of detail.
+
+203
+00:10:38.940 --> 00:10:42.810
+In appearance prefiltering, we are given a known input scene and would
+
+204
+00:10:42.810 --> 00:10:44.220
+like to approximate it as a volume.
+
+205
+00:10:44.690 --> 00:10:47.330
+In the following, we will determine the parameters of our volumetric
+
+206
+00:10:47.330 --> 00:10:50.430
+representation by running different queries and a localized parameter
+
+207
+00:10:50.430 --> 00:10:51.780
+optimization using the input scene.
+
+208
+00:10:53.120 --> 00:10:56.410
+First, we compute a binary voxelization of the scene to find which
+
+209
+00:10:56.410 --> 00:10:57.790
+voxels contain geometry.
+
+210
+00:10:58.400 --> 00:11:01.730
+We are interested in finding a sparse voxelization, so any voxel that
+
+211
+00:11:01.730 --> 00:11:04.250
+does not intersect the scene’s geometry, will remain empty.
+
+212
+00:11:04.940 --> 00:11:07.560
+In a next step, we trace light paths in each voxel.
+
+213
+00:11:08.090 --> 00:11:11.340
+This allows to determine an initial set of volume parameters.
+
+214
+00:11:11.780 --> 00:11:16.110
+We obtain albedo, phase function parameters and a naïve extinction
+
+215
+00:11:16.140 --> 00:11:20.380
+estimate from this. A s a phase function, we use the SGGX phase
+
+216
+00:11:20.380 --> 00:11:22.140
+function proposed by Heitz and colleagues.
+
+217
+00:11:22.780 --> 00:11:24.640
+We initialize the transmittance to be exponential.
+
+218
+00:11:24.920 --> 00:11:28.090
+To determine the optimal parameters for extinction and gamma, we then
+
+219
+00:11:28.090 --> 00:11:30.840
+randomly sample segments in the volumetric scene representation and
+
+220
+00:11:30.840 --> 00:11:32.020
+evaluate the transmittance.
+
+221
+00:11:32.620 --> 00:11:35.600
+We evaluate the ground truth transmittance by tracing rays in a beam
+
+222
+00:11:35.600 --> 00:11:39.380
+in the original scene. We then compute an L_1 loss between our
+
+223
+00:11:39.380 --> 00:11:42.250
+transmittance and the reference and optimize the volume parameters
+
+224
+00:11:42.250 --> 00:11:43.260
+using gradient descent.
+
+225
+00:11:43.630 --> 00:11:46.070
+This kind of localized fitting approach works really well.
+
+226
+00:11:46.600 --> 00:11:49.210
+This is an easier optimization problem to solve than using
+
+227
+00:11:49.210 --> 00:11:51.410
+image-based differentiable rendering to optimize the volume
+
+228
+00:11:51.410 --> 00:11:54.920
+parameters. Let’s have a look at some results.
+
+229
+00:11:55.410 --> 00:11:58.720
+Here we compare our volumetric scene representation to the reference
+
+230
+00:11:58.720 --> 00:12:00.060
+rendered using the original scene.
+
+231
+00:12:00.570 --> 00:12:03.730
+As we zoom in, the volume resolution that we use increases.
+
+232
+00:12:04.560 --> 00:12:07.160
+Our method faithfully captures the appearance of the reference.
+
+233
+00:12:07.810 --> 00:12:10.560
+Our volumetric representation does not have any lighting information
+
+234
+00:12:10.560 --> 00:12:13.540
+baked in and can therefore be rendered under arbitrary illumination.
+
+235
+00:12:14.150 --> 00:12:17.180
+Here, we compare the result using our non-exponential model and a
+
+236
+00:12:17.180 --> 00:12:18.750
+more conventional exponential model.
+
+237
+00:12:19.190 --> 00:12:21.340
+The exponential result suffers from light leaking.
+
+238
+00:12:22.190 --> 00:12:24.550
+We can show the same kind of results on this city scene.
+
+239
+00:12:24.950 --> 00:12:27.570
+Here, the exponential model does not manage to make the roads fully
+
+240
+00:12:27.570 --> 00:12:30.430
+opaque. We end up with a semitransparent appearance.
+
+241
+00:12:31.290 --> 00:12:34.760
+Similarly, for this dragon scene, we can see the ground plane leak
+
+242
+00:12:34.760 --> 00:12:37.380
+through the dragon when using an exponential transmittance.
+
+243
+00:12:37.990 --> 00:12:40.550
+Here, both the dragon and the ground plane are represented in the
+
+244
+00:12:40.550 --> 00:12:44.710
+same volume. The exponential transmittance model frequently results
+
+245
+00:12:44.710 --> 00:12:48.270
+in light leaking. In this scene, light leaks through the red and blue
+
+246
+00:12:48.270 --> 00:12:51.640
+surfaces, causing the shadow on the ground plane to not appear as
+
+247
+00:12:51.640 --> 00:12:52.720
+dark as in the reference.
+
+248
+00:12:53.610 --> 00:12:57.270
+One natural question to ask here is if this is just an artifact of
+
+249
+00:12:57.320 --> 00:12:59.010
+the optimization routine we chose.
+
+250
+00:12:59.400 --> 00:13:01.820
+More precisely, we could try using a different loss.
+
+251
+00:13:02.620 --> 00:13:04.030
+It turns out to be not that easy.
+
+252
+00:13:04.590 --> 00:13:07.490
+Here, we optimized the exponential model with a relative loss, that
+
+253
+00:13:07.490 --> 00:13:09.140
+more strongly penalizes leaking.
+
+254
+00:13:09.670 --> 00:13:12.280
+This slightly improves the shadow but leads to bloating of the
+
+255
+00:13:12.280 --> 00:13:15.660
+silhouettes. Our model matches the reference much more closely.
+
+256
+00:13:16.770 --> 00:13:19.110
+We can see a similar behavior on this fence scene.
+
+257
+00:13:19.650 --> 00:13:22.360
+Here, the relative loss results in a bloated appearance of the
+
+258
+00:13:22.360 --> 00:13:23.530
+semitransparent fence.
+
+259
+00:13:24.700 --> 00:13:27.890
+This shows that the limitations of the exponential model cannot be
+
+260
+00:13:27.920 --> 00:13:29.710
+fixed by just changing the loss function.
+
+261
+00:13:31.530 --> 00:13:34.240
+We can also compare the result obtained using our non-exponential
+
+262
+00:13:34.240 --> 00:13:37.680
+prefiltering method to the prior volumetric LoD method by Loubet and
+
+263
+00:13:37.680 --> 00:13:41.580
+Neyret. Their Hybrid LoD method attempts to divide the scene into
+
+264
+00:13:41.580 --> 00:13:43.380
+volume-like and surface-like parts.
+
+265
+00:13:43.810 --> 00:13:46.780
+This classification problem is very difficult, and their method often
+
+266
+00:13:46.780 --> 00:13:48.900
+misclassifies, leading to light leaking.
+
+267
+00:13:49.460 --> 00:13:52.220
+Here we compare our method to theirs at different resolutions.
+
+268
+00:13:52.500 --> 00:13:55.610
+Our method more faithfully represents the input scene at all scales.
+
+269
+00:13:56.350 --> 00:13:59.690
+So far, we’ve only showed applications on scenes consisting of diffuse
+
+270
+00:13:59.690 --> 00:14:03.740
+surfaces. However, if we swap the diffuse version of the SGGX phase
+
+271
+00:14:03.740 --> 00:14:06.590
+function for its specular variant we can also model metallic
+
+272
+00:14:06.590 --> 00:14:09.990
+surfaces. We can reproduce the overall appearance of the reference,
+
+273
+00:14:10.260 --> 00:14:11.340
+but there is some blurring.
+
+274
+00:14:11.840 --> 00:14:14.410
+We believe that this is primarily caused by the phase function not
+
+275
+00:14:14.410 --> 00:14:15.450
+being expressive enough.
+
+276
+00:14:15.910 --> 00:14:18.530
+Improving the phase function remains an important avenue of future
+
+277
+00:14:18.530 --> 00:14:22.610
+work. All the results we showed so far were for appearance
+
+278
+00:14:22.610 --> 00:14:25.430
+prefiltering, where we assume the ground truth scene to be known.
+
+279
+00:14:26.090 --> 00:14:28.930
+I would like to conclude this presentation by showing a few results
+
+280
+00:14:28.930 --> 00:14:30.260
+for image-based reconstruction.
+
+281
+00:14:31.670 --> 00:14:34.540
+We use a differentiable volume renderer and optimize a volumetric
+
+282
+00:14:34.540 --> 00:14:37.910
+representation while accounting for direct and indirect illumination
+
+283
+00:14:37.910 --> 00:14:39.000
+up to 4 bounces.
+
+284
+00:14:39.790 --> 00:14:43.350
+We store volume parameters on a voxel grid of resolution up to 256
+
+285
+00:14:43.570 --> 00:14:47.670
+voxels cubed. Here we optimized the volume parameters under a uniform
+
+286
+00:14:47.670 --> 00:14:51.270
+illumination. We optimize both an exponential model as well as our
+
+287
+00:14:51.270 --> 00:14:54.460
+non-exponential model. When re-rendering under constant illumination,
+
+288
+00:14:54.700 --> 00:14:55.980
+both models look quite similar.
+
+289
+00:14:56.520 --> 00:14:59.080
+We ran these optimizations using a differentiable renderer written in
+
+290
+00:14:59.080 --> 00:15:02.520
+CUDA. Both optimizations took a little less than one hour to run.
+
+291
+00:15:03.410 --> 00:15:06.380
+Our non-exponential model takes around 10% longer to optimize than
+
+292
+00:15:06.380 --> 00:15:09.560
+the exponential model. Since we optimized the volume parameters
+
+293
+00:15:09.560 --> 00:15:12.650
+accounting for global illumination, we can re-render the resulting
+
+294
+00:15:12.650 --> 00:15:14.440
+volume using a different environment map.
+
+295
+00:15:15.140 --> 00:15:17.960
+Using an environment map with bright windows reveals that the
+
+296
+00:15:17.960 --> 00:15:20.350
+exponential representation is far from opaque.
+
+297
+00:15:20.770 --> 00:15:22.540
+Light is leaking through the leaves of the plant.
+
+298
+00:15:23.030 --> 00:15:25.930
+This is despite the optimization using an explicit silhouette loss.
+
+299
+00:15:26.490 --> 00:15:28.880
+Our non-exponential model behaves much more robustly under
+
+300
+00:15:28.880 --> 00:15:32.780
+relighting. As a last result, I would like to show an application of
+
+301
+00:15:32.820 --> 00:15:35.390
+non-exponential transmittance to neural radiance fields.
+
+302
+00:15:35.890 --> 00:15:38.790
+Neural radiance fields model scenes as emissive volumes, with a
+
+303
+00:15:38.790 --> 00:15:41.820
+neural network modeling the spatial variation in volume parameters.
+
+304
+00:15:42.340 --> 00:15:45.240
+In contrast to the previous results, this method does not allow for
+
+305
+00:15:45.240 --> 00:15:49.670
+relighting. Here, we reconstruct a simple test scene both using our
+
+306
+00:15:49.670 --> 00:15:52.620
+transmittance model and conventional NeRF using exponential
+
+307
+00:15:52.620 --> 00:15:56.110
+transmittance. The test scene consists of a single flat diffuse
+
+308
+00:15:56.110 --> 00:15:59.090
+plane. The non-exponential transmittance model manages to better
+
+309
+00:15:59.090 --> 00:16:01.370
+separate the foreground plane from the black background.
+
+310
+00:16:02.470 --> 00:16:05.720
+Finally, we also applied a simplified, purely linear transmittance
+
+311
+00:16:05.720 --> 00:16:06.790
+model to the Lego scene.
+
+312
+00:16:07.440 --> 00:16:10.720
+Our result and the original exponential NeRF are quite similar, but
+
+313
+00:16:10.720 --> 00:16:12.570
+we can see a small improvement in sharpness.
+
+314
+00:16:13.010 --> 00:16:15.600
+We believe a more thorough investigation of the combination of
+
+315
+00:16:15.640 --> 00:16:18.330
+non-exponential transmittance with neural rendering would be an
+
+316
+00:16:18.330 --> 00:16:19.810
+interesting direction for future work.
+
+317
+00:16:21.500 --> 00:16:24.460
+In conclusion, we show that volumetric scene representations can
+
+318
+00:16:24.460 --> 00:16:27.340
+benefit from using a non-exponential transmittance representation.
+
+319
+00:16:27.840 --> 00:16:30.430
+A non-exponential transmittance model more closely approximates the
+
+320
+00:16:30.430 --> 00:16:34.350
+ground truth behavior. Our new model allows to spatially vary the
+
+321
+00:16:34.350 --> 00:16:37.170
+transmittance behavior, which improves results both on level of
+
+322
+00:16:37.190 --> 00:16:39.000
+detail and image-based reconstruction.
+
+323
+00:16:39.170 --> 00:16:42.000
+For future work, we think improving the representation power of the
+
+324
+00:16:42.000 --> 00:16:44.710
+phase function is necessary to model more complex material
+
+325
+00:16:44.710 --> 00:16:48.060
+appearances. This could either be done by building on existing phase
+
+326
+00:16:48.060 --> 00:16:50.310
+function models or by using neural networks.
+
+327
+00:16:51.270 --> 00:16:53.130
+Additionally, our model is not reciprocal.
+
+328
+00:16:53.530 --> 00:16:56.010
+We didn’t find this to be a practical problem in the current setting
+
+329
+00:16:56.400 --> 00:16:59.120
+but coming up with a reciprocal formulation remains an interesting
+
+330
+00:16:59.120 --> 00:17:02.590
+challenge. We also evaluate our model with biased ray marching.
+
+331
+00:17:02.990 --> 00:17:05.359
+Evaluating it in an unbiased way remains future work.
+
+332
+00:17:05.890 --> 00:17:07.160
+This concludes this presentation.
+
+333
+00:17:07.410 --> 00:17:08.380
+Thank you for your attention!

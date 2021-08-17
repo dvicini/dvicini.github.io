@@ -1,0 +1,1281 @@
+WEBVTT
+
+1
+00:00:03.180 --> 00:00:06.740
+Hi, I am Delio Vicini, and I am a 4th year PhD student at EPFL.
+
+2
+00:00:07.230 --> 00:00:10.700
+In this talk, I will present our paper “Path Replay backpropagation:
+
+3
+00:00:11.060 --> 00:00:14.120
+Differentiating light paths using constant memory and linear time”.
+
+4
+00:00:14.660 --> 00:00:17.640
+This is joint work with Sebastien Speierer and Wenzel Jakob.
+
+5
+00:00:18.700 --> 00:00:21.590
+Rendering algorithms are used to generate realistic images of virtual
+
+6
+00:00:21.590 --> 00:00:25.120
+scenes. Given the geometry, textures and material descriptions of a
+
+7
+00:00:25.120 --> 00:00:27.860
+scene, we can generate a very realistic image.
+
+8
+00:00:28.390 --> 00:00:30.530
+This forward rendering process is well understood.
+
+9
+00:00:32.330 --> 00:00:35.530
+In this paper, we are concerned with the inverse problem: we seek to
+
+10
+00:00:35.530 --> 00:00:37.670
+reconstruct scene parameters given an image.
+
+11
+00:00:38.480 --> 00:00:42.450
+For example, given the geometry, we would like to reconstruct the RGB
+
+12
+00:00:42.540 --> 00:00:45.630
+textures that reproduce the appearance of the target image.
+
+13
+00:00:47.260 --> 00:00:50.310
+We can do this by formulating this task as an optimization problem.
+
+14
+00:00:50.960 --> 00:00:54.070
+We will try to find the textures which minimize a loss between the
+
+15
+00:00:54.070 --> 00:00:56.170
+rendered image and the reference image.
+
+16
+00:00:56.760 --> 00:00:58.950
+The loss could for example be the mean squared error.
+
+17
+00:01:00.680 --> 00:01:03.800
+Recently, gradient-based optimization methods have become popular to
+
+18
+00:01:03.800 --> 00:01:04.830
+tackle such problems.
+
+19
+00:01:05.640 --> 00:01:08.740
+The key ingredient for such methods to work is to have a
+
+20
+00:01:08.740 --> 00:01:12.210
+*differentiable renderer*. Using a differentiable renderer, we can
+
+21
+00:01:12.210 --> 00:01:15.100
+then minimize the loss by computing the derivative with respect to
+
+22
+00:01:15.100 --> 00:01:17.590
+the scene parameters and running gradient descent.
+
+23
+00:01:19.000 --> 00:01:21.990
+Running the optimization, we will eventually end up finding textures
+
+24
+00:01:22.200 --> 00:01:24.590
+that reproduces the appearance of the reference image.
+
+25
+00:01:25.140 --> 00:01:27.550
+Of course, differentiable rendering is not just useful for the
+
+26
+00:01:27.590 --> 00:01:29.100
+problem of optimizing textures.
+
+27
+00:01:29.750 --> 00:01:32.900
+It has been used for applications such as shape reconstruction,
+
+28
+00:01:33.200 --> 00:01:35.730
+neural rendering, appearance optimization and many more.
+
+29
+00:01:36.410 --> 00:01:39.380
+There are a range of widely used tools and methods that either use a
+
+30
+00:01:39.380 --> 00:01:42.560
+version of rasterization or neural rendering to make the rendering
+
+31
+00:01:42.560 --> 00:01:45.880
+process differentiable. On the other hand, we have recently seen
+
+32
+00:01:45.880 --> 00:01:48.380
+physically based differentiable rendering to become more and more
+
+33
+00:01:48.380 --> 00:01:51.690
+practical. These methods simulate the full light transport in a
+
+34
+00:01:51.690 --> 00:01:55.740
+differentiable way. In this paper, our goal is to improve the
+
+35
+00:01:55.740 --> 00:01:59.020
+efficiency of such methods, where we compute gradients of complex
+
+36
+00:01:59.020 --> 00:02:01.190
+light transport involving global illumination.
+
+37
+00:02:01.700 --> 00:02:04.860
+Long-term, we expect these two boxes to overlap more and more.
+
+38
+00:02:07.330 --> 00:02:09.810
+When using physically based differentiable rendering, there are some
+
+39
+00:02:09.810 --> 00:02:12.910
+challenges. One challenge are visibility discontinuities.
+
+40
+00:02:13.160 --> 00:02:16.250
+For example, if we want to optimize the position of an object, we
+
+41
+00:02:16.250 --> 00:02:18.850
+need to compute derivatives of terms related to the silhouette.
+
+42
+00:02:19.580 --> 00:02:21.290
+This turns out to be challenging problem.
+
+43
+00:02:21.750 --> 00:02:24.610
+We don’t address this issue in our paper and refer to other recent
+
+44
+00:02:24.610 --> 00:02:28.500
+papers for reference. The other central problem is the complexity due
+
+45
+00:02:28.500 --> 00:02:30.960
+to long light paths and the heterogeneous nature of the light
+
+46
+00:02:30.960 --> 00:02:34.580
+transport simulation. We need to be able to compute derivatives in
+
+47
+00:02:34.580 --> 00:02:37.350
+the presence of complex lighting effects such as volumetric
+
+48
+00:02:37.350 --> 00:02:41.440
+scattering. Moreover, we are interested in methods that can compute
+
+49
+00:02:41.440 --> 00:02:44.040
+the derivatives of millions of parameters simultaneously.
+
+50
+00:02:44.710 --> 00:02:47.750
+Note that handling complex light transport is mostly orthogonal from
+
+51
+00:02:47.750 --> 00:02:49.960
+the problem of handling visibility discontinuities.
+
+52
+00:02:52.540 --> 00:02:54.600
+Let’s define the problem a bit more precisely now.
+
+53
+00:02:55.240 --> 00:02:58.480
+To render a realistic image of a scene, we can use path tracing.
+
+54
+00:02:59.190 --> 00:03:03.100
+Path tracing estimates the colors of the image by sampling many light
+
+55
+00:03:03.100 --> 00:03:07.220
+paths in the scene. Starting at the camera, the light paths scatter
+
+56
+00:03:07.220 --> 00:03:10.100
+on objects in a scene until they eventually reach a light source.
+
+57
+00:03:10.760 --> 00:03:13.610
+For a given light path, we can compute its contribution to the final
+
+58
+00:03:13.610 --> 00:03:16.990
+image. In an RGB renderer, this will simply be a color value.
+
+59
+00:03:17.930 --> 00:03:21.440
+The question is now how can efficiently compute the derivative of a
+
+60
+00:03:21.440 --> 00:03:24.280
+light path’s contribution with respect to scene parameters.
+
+61
+00:03:24.840 --> 00:03:27.590
+For example, what is the derivative with respect to the color of a
+
+62
+00:03:27.590 --> 00:03:28.860
+texel in this painting on the right.
+
+63
+00:03:29.650 --> 00:03:32.600
+Additionally, we might also be interested in derivatives with respect
+
+64
+00:03:32.600 --> 00:03:35.120
+to other parameters encountered along the path.
+
+65
+00:03:35.520 --> 00:03:37.380
+This makes the problem even more challenging.
+
+66
+00:03:38.840 --> 00:03:42.030
+One way to compute derivatives of a complex computation, such as path
+
+67
+00:03:42.030 --> 00:03:44.070
+tracing, is to use automatic differentiation.
+
+68
+00:03:44.780 --> 00:03:48.010
+For example, let’s say we want to compute the derivatives of an output
+
+69
+00:03:48.010 --> 00:03:51.620
+variable y with respect to three inputs x_0, x_1 and x_2.
+
+70
+00:03:52.790 --> 00:03:55.750
+There are two main flavors of automatic differentiation that can be
+
+71
+00:03:55.750 --> 00:03:57.090
+used to compute such gradients.
+
+72
+00:03:57.800 --> 00:04:00.980
+The first approach is forward mode automatic differentiation, where
+
+73
+00:04:00.980 --> 00:04:03.800
+we need to run the computation once for each component of the
+
+74
+00:04:03.800 --> 00:04:07.130
+gradient vector. For rendering, this would amount to rendering the
+
+75
+00:04:07.130 --> 00:04:09.920
+scene once per parameter, which quickly becomes infeasible.
+
+76
+00:04:10.960 --> 00:04:13.740
+The alternative is to use reverse-mode automatic differentiation.
+
+77
+00:04:14.080 --> 00:04:15.990
+Here, we compute derivatives in two passes.
+
+78
+00:04:16.440 --> 00:04:19.490
+First, we run the computation while storing certain partial results.
+
+79
+00:04:20.000 --> 00:04:23.140
+In a backward pass, we then accumulate gradients by propagating the
+
+80
+00:04:23.140 --> 00:04:26.320
+gradient of the output in reverse order using the stored computation
+
+81
+00:04:26.320 --> 00:04:29.760
+graph. We can then efficiently accumulate gradients for millions of
+
+82
+00:04:29.760 --> 00:04:33.510
+parameters. This process is often also just called “backpropagation”
+
+83
+00:04:33.930 --> 00:04:36.230
+and is what we use to for example train neural networks.
+
+84
+00:04:37.520 --> 00:04:40.050
+In differentiable rendering, using reverse-mode automatic
+
+85
+00:04:40.080 --> 00:04:42.500
+differentiation can be understood as storing some amount of
+
+86
+00:04:42.500 --> 00:04:44.360
+information per bounce of each light path.
+
+87
+00:04:45.030 --> 00:04:47.700
+This is a simplified view, but it’s sufficient to see that this
+
+88
+00:04:47.700 --> 00:04:50.740
+quickly requires gigabytes of memory when handling a wavefront of
+
+89
+00:04:50.740 --> 00:04:55.030
+rays. Using automatic differentiation is conceptually simple and can
+
+90
+00:04:55.030 --> 00:04:58.360
+be quite fast, but the extreme memory requirements are hard to deal
+
+91
+00:04:58.360 --> 00:05:02.360
+with. This is the case even when using common optimizations such as
+
+92
+00:05:02.360 --> 00:05:05.760
+checkpointing. Even a highly optimized implementation will quickly
+
+93
+00:05:05.760 --> 00:05:07.620
+run out of memory on modern GPUs.
+
+94
+00:05:09.280 --> 00:05:12.280
+One alternative approach to using conventional AD was presented at
+
+95
+00:05:12.280 --> 00:05:15.230
+last year’s SIGGRAPH in the form of radiative backpropagation.
+
+96
+00:05:15.910 --> 00:05:19.550
+In that paper, the authors suggest to replace conventional AD by
+
+97
+00:05:19.550 --> 00:05:21.600
+tracing light paths to estimate derivatives.
+
+98
+00:05:22.350 --> 00:05:25.470
+Compared to using automatic differentiation, we now don’t need to
+
+99
+00:05:25.470 --> 00:05:27.550
+store information for each light bounce anymore.
+
+100
+00:05:28.530 --> 00:05:31.490
+In radiative backpropagation, we compute gradients by tracing light
+
+101
+00:05:31.540 --> 00:05:35.590
+paths from the camera. Once we hit a surface, we trace a recursive
+
+102
+00:05:35.590 --> 00:05:38.080
+light path to estimate the incident indirect illumination.
+
+103
+00:05:38.660 --> 00:05:41.360
+This is then used to compute scene parameter derivatives.
+
+104
+00:05:42.450 --> 00:05:45.390
+We then continue tracing in the scene to estimate derivatives of other
+
+105
+00:05:45.390 --> 00:05:49.410
+scene parameters. This method solves the problem of the memory
+
+106
+00:05:49.410 --> 00:05:52.850
+consumption, but at the price of quadratic complexity in the number
+
+107
+00:05:52.850 --> 00:05:55.660
+of light bounces. This can quickly become prohibitive.
+
+108
+00:05:56.730 --> 00:06:00.350
+The authors therefore suggest avoiding the recursive estimation of the
+
+109
+00:06:00.350 --> 00:06:01.610
+incident primal radiance.
+
+110
+00:06:02.190 --> 00:06:05.670
+As an approximation, one can assume the incident radiance to simply be
+
+111
+00:06:05.690 --> 00:06:09.250
+equal to 1. That reduces the complexity to linear in the number of
+
+112
+00:06:09.300 --> 00:06:13.260
+bounces but introduces bias in the estimated parameter gradients.
+
+113
+00:06:14.280 --> 00:06:16.730
+It turns out that this bias can hurt optimization performance
+
+114
+00:06:16.730 --> 00:06:18.790
+significantly. We will get back to that later.
+
+115
+00:06:20.130 --> 00:06:23.240
+In our work, we propose a new method that produces unbiased derivative
+
+116
+00:06:23.280 --> 00:06:26.110
+estimates in linear time and using a constant amount of memory.
+
+117
+00:06:26.920 --> 00:06:30.060
+We show that our method generalizes to perfectly specular surfaces,
+
+118
+00:06:30.290 --> 00:06:32.450
+which cannot be handled by radiative backpropagation.
+
+119
+00:06:33.010 --> 00:06:35.930
+Lastly, our method for the first time allows to use delta tracking
+
+120
+00:06:35.930 --> 00:06:37.220
+for differentiable volume rendering.
+
+121
+00:06:38.710 --> 00:06:41.590
+To give the high-level idea of our method let’s revisit the example
+
+122
+00:06:41.590 --> 00:06:44.990
+scene from before. When we trace a light path, we essentially compute
+
+123
+00:06:44.990 --> 00:06:48.470
+the sample value as a product of the local surface albedos and the
+
+124
+00:06:48.470 --> 00:06:52.960
+light source intensity. Given such a product, how could we compute
+
+125
+00:06:52.960 --> 00:06:54.840
+its derivative with respect to one of the terms?
+
+126
+00:06:55.240 --> 00:06:58.180
+In the following I will present a heavily simplified “baby version”
+
+127
+00:06:58.180 --> 00:07:00.080
+of our method to explain the intuition behind it.
+
+128
+00:07:00.940 --> 00:07:03.500
+It turns out that this derivative has a very simple form.
+
+129
+00:07:04.320 --> 00:07:07.050
+If we take the derivative, we are left with the terms before the
+
+130
+00:07:07.050 --> 00:07:08.850
+current light bounce and the terms after it.
+
+131
+00:07:09.680 --> 00:07:12.510
+The prefix is exactly the throughput of the light path until the
+
+132
+00:07:12.510 --> 00:07:15.830
+current bounce and the suffix is the incident indirect illumination.
+
+133
+00:07:17.340 --> 00:07:20.520
+We can then simply compute the derivative as the final sample radiance
+
+134
+00:07:20.520 --> 00:07:22.550
+divided by the value at the bounce of interest.
+
+135
+00:07:23.170 --> 00:07:26.380
+So somewhat surprisingly, the derivative became a simple ratio.
+
+136
+00:07:27.180 --> 00:07:29.510
+We can do the same computation for other terms in the product.
+
+137
+00:07:31.060 --> 00:07:33.530
+This indicates that all we need to know is the sample radiance!
+
+138
+00:07:34.080 --> 00:07:37.200
+This again is a simplified view on the problem, but this is really at
+
+139
+00:07:37.200 --> 00:07:38.880
+the core the intuition behind our method.
+
+140
+00:07:40.200 --> 00:07:42.180
+Our method computes gradients in two steps
+
+141
+00:07:43.060 --> 00:07:46.190
+First, we compute the sample value L using regular path tracing.
+
+142
+00:07:47.200 --> 00:07:50.960
+Second, we then *replay* the same light path by using the same random
+
+143
+00:07:50.960 --> 00:07:54.290
+seed as before. While we trace this light path, we can then
+
+144
+00:07:54.290 --> 00:07:57.530
+accumulate the local parameter derivatives by reusing the result of
+
+145
+00:07:57.530 --> 00:08:01.340
+the first pass. Our method uses a constant amount of memory, has
+
+146
+00:08:01.340 --> 00:08:04.410
+linear complexity and computes unbiased gradient estimates.
+
+147
+00:08:05.210 --> 00:08:08.110
+In practice, the method is more complex than explained here.
+
+148
+00:08:08.640 --> 00:08:11.610
+We need to handle arbitrary BSDF parameters, and not just albedo
+
+149
+00:08:11.610 --> 00:08:15.240
+textures. We also need to deal with emissive surfaces and next event
+
+150
+00:08:15.240 --> 00:08:18.950
+estimation. Our method accounts for all of this, but these things are
+
+151
+00:08:19.110 --> 00:08:20.610
+a bit too technical for this talk.
+
+152
+00:08:20.820 --> 00:08:23.040
+I will refer you to the paper for details and pseudocode.
+
+153
+00:08:24.330 --> 00:08:27.890
+I would like to provide some more insight on the mathematical idea
+
+154
+00:08:27.910 --> 00:08:29.090
+that is underlying our method.
+
+155
+00:08:29.760 --> 00:08:32.419
+We can think of path tracing as simply running a for loop over a
+
+156
+00:08:32.419 --> 00:08:33.620
+number of N bounces.
+
+157
+00:08:34.220 --> 00:08:37.390
+In each loop iteration, we update some loop state to construct a light
+
+158
+00:08:37.390 --> 00:08:38.929
+path and accumulate radiance.
+
+159
+00:08:39.630 --> 00:08:42.720
+In a more abstract sense, our path tracer starts from some initial
+
+160
+00:08:42.720 --> 00:08:45.580
+state and updates this state until eventually terminating.
+
+161
+00:08:46.570 --> 00:08:50.410
+If we now want to differentiate such a computation using AD, we can
+
+162
+00:08:50.410 --> 00:08:52.700
+simply store the loop state after each iteration.
+
+163
+00:08:53.560 --> 00:08:56.810
+The stored state can then be used to backpropagate gradients from the
+
+164
+00:08:56.890 --> 00:09:00.820
+output of the algorithm. There is an interesting symmetry here.
+
+165
+00:09:01.380 --> 00:09:04.400
+To compute derivatives at state “k” we need two things.
+
+166
+00:09:04.840 --> 00:09:08.280
+First, we need the state after k iterations computed in the forward
+
+167
+00:09:08.280 --> 00:09:11.740
+direction. Conventional AD simply stores this information during the
+
+168
+00:09:11.740 --> 00:09:15.140
+forward pass. The second one is a bit more subtle: the backward pass
+
+169
+00:09:15.140 --> 00:09:18.220
+computes the product of Jacobians between iterations.
+
+170
+00:09:18.520 --> 00:09:21.980
+This product is accumulated from state N all the way down to state k
+
+171
+00:09:21.980 --> 00:09:25.050
+in reverse order. Both these quantities are needed to accumulate
+
+172
+00:09:25.050 --> 00:09:28.980
+parameter gradients. Besides just storing all iteration states, we
+
+173
+00:09:28.980 --> 00:09:31.680
+could also try to exploit reversibility of individual iteration
+
+174
+00:09:31.680 --> 00:09:37.110
+steps. To do so, we first run the forward pass without storing any
+
+175
+00:09:37.110 --> 00:09:40.650
+intermediate state. The gradients are then computed by reconstructing
+
+176
+00:09:40.650 --> 00:09:44.230
+the states by applying the inverse loop iteration from the output of
+
+177
+00:09:44.230 --> 00:09:47.950
+the computation. This idea underlies the adjoint sensitivity method
+
+178
+00:09:47.950 --> 00:09:49.080
+for differential equations.
+
+179
+00:09:49.560 --> 00:09:51.790
+It has also been used in some neural network papers.
+
+180
+00:09:52.350 --> 00:09:55.430
+However, applying this to rendering seems difficult: one would need
+
+181
+00:09:55.430 --> 00:09:58.270
+to be able to reconstruct a light path in the reverse direction.
+
+182
+00:09:59.360 --> 00:10:01.480
+Our method therefore solves the problem in a different way.
+
+183
+00:10:02.310 --> 00:10:05.780
+Instead of trying to reconstruct the state “k”, we reconstruct the
+
+184
+00:10:05.850 --> 00:10:09.170
+Jacobian product. During the forward pass, we build the Jacobian
+
+185
+00:10:09.170 --> 00:10:10.970
+product over all loop iterations.
+
+186
+00:10:11.940 --> 00:10:14.440
+We then run the adjoint pass in the same direction as the original
+
+187
+00:10:14.440 --> 00:10:18.380
+forward pass and apply the inverse of the local Jacobian matrix to
+
+188
+00:10:18.380 --> 00:10:20.530
+reconstruct the currently needed Jacobian product.
+
+189
+00:10:21.210 --> 00:10:24.010
+The structure of the path tracer makes it such that this can be done
+
+190
+00:10:24.010 --> 00:10:27.820
+efficiently. If we don’t care about specular surfaces, this does not
+
+191
+00:10:27.870 --> 00:10:29.900
+even require the use of any matrix inverses.
+
+192
+00:10:30.850 --> 00:10:34.330
+Our method allows to run the adjoint pass by simply replaying the
+
+193
+00:10:34.330 --> 00:10:37.180
+light path, without having to explicitly invert computation.
+
+194
+00:10:37.840 --> 00:10:41.040
+In the paper we also present a way to gracefully handle the Jacobian
+
+195
+00:10:41.040 --> 00:10:43.150
+inversion in the presence of singularities.
+
+196
+00:10:43.940 --> 00:10:47.650
+As far as we know, this approach to computing derivatives is new and
+
+197
+00:10:47.670 --> 00:10:49.590
+could potentially be useful in other domains too.
+
+198
+00:10:50.500 --> 00:10:53.150
+Before looking at results, I would like to briefly discuss two more
+
+199
+00:10:53.150 --> 00:10:54.180
+applications of our method.
+
+200
+00:10:54.970 --> 00:10:57.260
+One interesting use case are specular surfaces.
+
+201
+00:10:58.030 --> 00:11:00.620
+Let’s say we add a glass object on this table in the room.
+
+202
+00:11:01.460 --> 00:11:04.370
+For forward rendering, nothing really changes, we just trace light
+
+203
+00:11:04.410 --> 00:11:08.980
+paths as usual However, if we are now interested in gradients with
+
+204
+00:11:08.980 --> 00:11:11.570
+respect to the shape of that object, we need to be more careful.
+
+205
+00:11:13.020 --> 00:11:15.610
+Suppose that this scene includes a differentiable parameter that
+
+206
+00:11:15.610 --> 00:11:17.500
+controls the scale of this glass object.
+
+207
+00:11:18.800 --> 00:11:22.400
+Scaling the object causes the light will refract slightly differently.
+
+208
+00:11:24.290 --> 00:11:27.010
+This means that changing this scene parameter can change the whole
+
+209
+00:11:27.010 --> 00:11:30.200
+light path. We need to account for this when trying to estimate
+
+210
+00:11:30.200 --> 00:11:33.840
+derivatives. It turns out that our method can be adapted to this
+
+211
+00:11:33.840 --> 00:11:38.760
+case. We can do that be extending the first pass to not only return
+
+212
+00:11:38.760 --> 00:11:41.870
+the contribution of the light path, but also it’s derivative with
+
+213
+00:11:41.870 --> 00:11:43.000
+respect to the camera ray.
+
+214
+00:11:44.080 --> 00:11:47.460
+This 3 by 4 Jacobian matrix contains the derivative of each color
+
+215
+00:11:47.490 --> 00:11:49.660
+channel with respect to the geometry of the ray.
+
+216
+00:11:50.760 --> 00:11:53.810
+In the second pass, we can then use that derivative to compute scene
+
+217
+00:11:53.810 --> 00:11:58.500
+parameter gradients. In each iteration of the second pass, we compute
+
+218
+00:11:58.500 --> 00:12:01.100
+the derivative of the incident radiance with respect to the current
+
+219
+00:12:01.100 --> 00:12:04.550
+ray. This involves inverting a 4 by 4 matrix in each iteration to
+
+220
+00:12:04.550 --> 00:12:05.710
+reconstruct these derivatives.
+
+221
+00:12:06.920 --> 00:12:09.140
+Please see the paper for pseudocode and details on this.
+
+222
+00:12:11.730 --> 00:12:14.370
+Another important application of our method is unbiased volume
+
+223
+00:12:14.370 --> 00:12:17.260
+rendering. Volume rendering is a tough case for differentiable
+
+224
+00:12:17.260 --> 00:12:20.380
+rendering, because volumes often need to be rendered with a very high
+
+225
+00:12:20.380 --> 00:12:25.650
+number of bounces. When rendering volumes, we need to alternate
+
+226
+00:12:25.650 --> 00:12:29.090
+between sampling the distance to the next scattering event and the
+
+227
+00:12:29.090 --> 00:12:33.040
+direction. In a heterogeneous medium, we need to use delta tracking
+
+228
+00:12:33.040 --> 00:12:35.180
+to sample the free-flight distance in an unbiased way.
+
+229
+00:12:35.780 --> 00:12:39.520
+Delta tracking works by sampling tentative “null” interactions until
+
+230
+00:12:39.520 --> 00:12:41.170
+eventually a real interaction is sampled.
+
+231
+00:12:41.370 --> 00:12:43.950
+By sampling null and real interactions with the right probabilities
+
+232
+00:12:44.280 --> 00:12:46.490
+we can sample the free-flight distance in an unbiased way.
+
+233
+00:12:47.040 --> 00:12:49.810
+Using delta tracking makes volume rendering even more difficult to
+
+234
+00:12:49.810 --> 00:12:52.460
+differentiate due to the high number of interactions.
+
+235
+00:12:53.590 --> 00:12:56.790
+This also has the consequence that light paths terminate after vastly
+
+236
+00:12:56.790 --> 00:12:59.450
+different numbers of real or null interactions have been computed.
+
+237
+00:12:59.950 --> 00:13:02.740
+This makes it completely infeasible to use conventional automatic
+
+238
+00:13:02.740 --> 00:13:06.060
+differentiation, which needs to render the image by computing large
+
+239
+00:13:06.090 --> 00:13:07.450
+wavefronts of rays in parallel.
+
+240
+00:13:08.520 --> 00:13:11.560
+Our method now for the first time enables efficient differentiation
+
+241
+00:13:11.560 --> 00:13:12.970
+of renderings using delta tracking.
+
+242
+00:13:13.410 --> 00:13:16.760
+On top of applying our path replay backpropagation itself this
+
+243
+00:13:16.760 --> 00:13:19.800
+requires careful treatment of the discrete sampling steps in delta
+
+244
+00:13:19.800 --> 00:13:23.520
+tracking. I refer to the paper for an expanded derivation and
+
+245
+00:13:23.520 --> 00:13:26.140
+pseudocode. Now let’s have a look at some results.
+
+246
+00:13:26.550 --> 00:13:29.920
+In this figure, we compare the parameter gradients computed using
+
+247
+00:13:29.920 --> 00:13:33.110
+radiative backpropagation, our method and conventional AD.
+
+248
+00:13:33.990 --> 00:13:36.500
+For each of these scenes, we compute the gradients of one of the
+
+249
+00:13:36.500 --> 00:13:41.090
+textures. In the first scene, we show the gradient of the floor’s
+
+250
+00:13:41.090 --> 00:13:46.270
+diffuse texture. In the second scene, we show the gradient of the
+
+251
+00:13:46.270 --> 00:13:47.720
+roughness texture of the dragon
+
+252
+00:13:48.720 --> 00:13:51.940
+and in the third scene we computed the gradient of the normal map.
+
+253
+00:13:55.130 --> 00:13:57.860
+Both our method and radiative backpropagation can reproduce the
+
+254
+00:13:57.860 --> 00:14:01.150
+gradients produced by AD The biased version of radiative
+
+255
+00:14:01.190 --> 00:14:05.100
+backpropagation produces gradients with wrong magnitude and even
+
+256
+00:14:05.100 --> 00:14:09.230
+wrong signs. We can also compare our method to the biased version of
+
+257
+00:14:09.230 --> 00:14:11.850
+radiative backpropagation on an actual optimization problem.
+
+258
+00:14:12.510 --> 00:14:15.700
+Here we optimize the scalar roughness of the metal surface of the
+
+259
+00:14:15.700 --> 00:14:19.440
+bunny. Our method and conventional AD converge to the same result,
+
+260
+00:14:19.930 --> 00:14:22.830
+whereas biased radiative backpropagation fails to converge.
+
+261
+00:14:24.370 --> 00:14:27.660
+To better understand the convergence behavior of these methods, we
+
+262
+00:14:27.660 --> 00:14:31.130
+visualize the gradient of the image loss with respect to the
+
+263
+00:14:31.130 --> 00:14:32.950
+roughness parameter in the previous scene.
+
+264
+00:14:33.730 --> 00:14:37.010
+Since this is a scalar parameter, we can plot the gradient over all
+
+265
+00:14:37.010 --> 00:14:39.600
+possible combinations of current and target values.
+
+266
+00:14:41.010 --> 00:14:43.550
+On the horizontal axis, we vary the target roughness.
+
+267
+00:14:45.560 --> 00:14:48.010
+On the vertical axis, we vary the current roughness.
+
+268
+00:14:49.640 --> 00:14:52.490
+Going from left to right in this plot, the target image of the
+
+269
+00:14:52.490 --> 00:14:53.580
+optimization changes.
+
+270
+00:14:54.160 --> 00:14:57.720
+In this plot, we expect the negative of the gradient to point towards
+
+271
+00:14:57.720 --> 00:15:01.150
+the diagonal, where current and target roughness are matching.
+
+272
+00:15:02.310 --> 00:15:05.170
+We can see in this plot that this optimization problem is unimodal
+
+273
+00:15:05.260 --> 00:15:06.530
+and therefore quite easy to solve.
+
+274
+00:15:07.610 --> 00:15:09.920
+Our method computes gradients that match the reference.
+
+275
+00:15:10.620 --> 00:15:13.290
+However, the biased version of radiative backpropagation has wrong
+
+276
+00:15:13.290 --> 00:15:16.520
+gradient signs and won’t be able to converge to the solution for most
+
+277
+00:15:16.520 --> 00:15:18.650
+combinations of initial and target roughness.
+
+278
+00:15:19.850 --> 00:15:22.840
+We can also use our method to optimize volume densities using delta
+
+279
+00:15:22.840 --> 00:15:26.970
+tracking. Here, we optimize the volume using 3 different viewpoints.
+
+280
+00:15:26.970 --> 00:15:31.120
+Here, both conventional AD and standard radiative backpropagation fail
+
+281
+00:15:31.120 --> 00:15:34.250
+to converge, as they can’t handle the complexity of delta tracking.
+
+282
+00:15:35.780 --> 00:15:40.920
+The biased RB and our method both converge, but the biased RB again
+
+283
+00:15:40.970 --> 00:15:43.220
+has some convergence issues due to bias.
+
+284
+00:15:44.380 --> 00:15:46.450
+We can also run more complex optimizations.
+
+285
+00:15:47.200 --> 00:15:50.220
+In this scene, we optimize the normal map and roughness of the metal
+
+286
+00:15:50.220 --> 00:15:54.520
+fish. We also optimize a scattering volume’s density and albedo to
+
+287
+00:15:54.520 --> 00:15:56.130
+approximate the plant on the right.
+
+288
+00:15:57.470 --> 00:16:00.560
+Starting at a low resolution, we gradually optimize all parameters
+
+289
+00:16:00.560 --> 00:16:04.810
+simultaneously. Comparing our method to biased radiative
+
+290
+00:16:04.810 --> 00:16:08.560
+backpropagation, we can see that our method converges better for all
+
+291
+00:16:08.560 --> 00:16:12.460
+involved parameters. The biased version of radiative backpropagation
+
+292
+00:16:12.460 --> 00:16:15.280
+fails to optimize the normal map and shows some artifacts on the
+
+293
+00:16:15.280 --> 00:16:19.290
+volume. Both conventional automatic differentiation and the unbiased
+
+294
+00:16:19.290 --> 00:16:23.340
+version of radiative backpropagation are again unable to optimize
+
+295
+00:16:23.340 --> 00:16:27.550
+this scene. Another interesting use case are computing derivatives of
+
+296
+00:16:27.630 --> 00:16:29.550
+objects exhibiting subsurface scattering.
+
+297
+00:16:30.340 --> 00:16:33.780
+Subsurface scattering is interesting, because it requires us to render
+
+298
+00:16:33.780 --> 00:16:37.440
+a high number of light bounces to faithfully reproduce the appearance
+
+299
+00:16:37.440 --> 00:16:41.570
+of an object. On the right we see that if we reduce the number of
+
+300
+00:16:41.570 --> 00:16:44.530
+considered bounces, there is significant energy loss.
+
+301
+00:16:45.640 --> 00:16:48.150
+We compare the performance of our method to prior methods.
+
+302
+00:16:48.700 --> 00:16:51.590
+Conventional AD quickly runs out of memory as we increase the number
+
+303
+00:16:51.590 --> 00:16:55.890
+of bounces. On the other hand, the quadratic complexity of radiative
+
+304
+00:16:55.930 --> 00:16:58.650
+backpropagation results in long computation times.
+
+305
+00:16:59.630 --> 00:17:03.200
+Our method both uses a constant amount of memory and remains
+
+306
+00:17:03.200 --> 00:17:06.460
+computationally efficient even for a high number of bounces.
+
+307
+00:17:08.099 --> 00:17:11.069
+As a last example, I would like to show an application of our
+
+308
+00:17:11.099 --> 00:17:12.720
+derivatives of specular surfaces.
+
+309
+00:17:13.410 --> 00:17:16.950
+In this scene, we optimize the normal map of a refractive glass slab
+
+310
+00:17:17.020 --> 00:17:19.540
+to reconstruct the appearance of the reference on the left.
+
+311
+00:17:22.040 --> 00:17:25.730
+In conclusion, path replay backpropagation is a powerful new approach
+
+312
+00:17:25.730 --> 00:17:29.000
+to limit memory and computation overheads during unbiased
+
+313
+00:17:29.070 --> 00:17:31.920
+differentiable rendering. This method can be generalized to specular
+
+314
+00:17:31.920 --> 00:17:35.030
+surfaces and for the first time allows to efficiently differentiate
+
+315
+00:17:35.030 --> 00:17:38.700
+through delta tracking. For future work, it would be interesting to
+
+316
+00:17:38.700 --> 00:17:41.690
+apply our method to additional light transport phenomena such as
+
+317
+00:17:41.690 --> 00:17:44.030
+polarized light or stochastic layered materials.
+
+318
+00:17:44.620 --> 00:17:47.570
+Finally, it would also be interesting apply our method to other
+
+319
+00:17:47.570 --> 00:17:49.930
+domains and problems outside of light transport.
+
+320
+00:17:51.510 --> 00:17:54.300
+This concludes this presentation, thank you for your attention.

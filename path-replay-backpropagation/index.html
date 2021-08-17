@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
     <title>Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
@@ -87,6 +89,19 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
             Differentiable physically-based rendering has become an indispensable tool for solving inverse problems involving light. Most applications in this area jointly optimize a large set of scene parameters to minimize an objective function, in which case reverse-mode differentiation is the method of choice for obtaining parameter gradients. However, existing techniques that perform the necessary differentiation step suffer from either statistical bias or a prohibitive cost in terms of memory and computation time. For example, standard techniques for automatic differentiation based on program transformation or Wengert tapes lead to impracticably large memory usage when applied to physically-based rendering algorithms. A recently proposed adjoint method by Nimier-David et al. 2020 reduces this to a constant memory footprint, but the computation time for unbiased gradient estimates then becomes quadratic in the number of scattering events along a light path. This is problematic when the scene contains highly scattering materials like participating media. In this paper, we propose a new unbiased backpropagation algorithm for rendering that only requires constant memory, and whose computation time is linear in the number of scattering events (i.e., just like path tracing). Our approach builds on the invertibility of the local Jacobian at scattering interactions to recover the various quantities needed for reverse-mode differentiation. Our method also extends to specular materials such as smooth dielectrics and conductors that cannot be handled by prior work.
         </p>
     </div>
+</div>
+
+<div class="row col-12">
+    <h4>Video</h4>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <video controls="controls" style="object-fit: fill; width: 100%;">
+            <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2021PathReplay.mp4" type="video/mp4" />
+            <p>Your browser does not support playing this video. Please download the video below.</p>
+            <track label="English" kind="subtitles" srclang="en" src="prb-talk.vtt">
+        </video>
+    </div>
+
 </div>
 
 

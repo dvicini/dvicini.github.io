@@ -1,20 +1,20 @@
-
 html,
 body {
   height: 100%;
   width: 100%;
   -webkit-font-smoothing: antialiased;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-
-
-.navbar { margin-bottom : 30px !important; }
+.navbar {
+  margin-bottom: 30px !important;
+}
 
 a {
   color: #26547f;
   text-decoration: none;
 }
+
 p {
   font-size: 16px;
   line-height: 1.5;
@@ -26,10 +26,10 @@ p.block {
 }
 
 p.reverse {
-    direction: rtl;
-    unicode-bidi: bidi-override;
-    text-align: left;
-    user-select: none;
+  direction: rtl;
+  unicode-bidi: bidi-override;
+  text-align: left;
+  user-select: none;
 }
 
 img {
@@ -39,8 +39,8 @@ img {
 }
 
 img.unpadded {
-    padding-bottom: 5px;
-    margin-bottom: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 img.thumbnail {
@@ -48,41 +48,36 @@ img.thumbnail {
 }
 
 img.thumbnail:hover {
-    transform: scale(1.05);
-    transition: all ease 150ms;
+  transform: scale(1.05);
+  transition: all ease 150ms;
 }
 
 p.imagecaption {
-    font-size: 14px;
-    font-style: italic;
-    text-align: justify;
+  font-size: 14px;
+  font-style: italic;
+  text-align: justify;
 }
 
 ul.authorlist {
-    align-items: inline;
-    margin-left: auto;
-    margin-right: auto;
-    align-content: center;
-    align-self: center;
+  align-items: inline;
+  margin-left: auto;
+  margin-right: auto;
+  align-content: center;
+  align-self: center;
 }
-/*
-li.authorlist {
-    margin:04px 40px 40px 40px;
- } */
-
 
 ul.quicklinks {
   list-style-type: none;
   padding-left: 0rem;
 }
 
-ul.quicklinks  li {
+ul.quicklinks li {
   list-style-type: none;
-  display:inline;
+  display: inline;
 }
 
 li.pdf li.page li.external_link {
-  display:inline;
+  display: inline;
 }
 
 pre.bibtex {

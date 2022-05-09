@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <title>Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time</title>
+    <title>Differentiable Signed Distance Function Rendering</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
@@ -47,7 +47,7 @@
     <div class="container" style="max-width:900px;">
 
 <div class="row col-12">
-<h2>Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time</h2>
+<h2>Differentiable Signed Distance Function Rendering</h2>
 </div>
 
 <div class="row col-12">
@@ -68,16 +68,16 @@
 
 <div class="row">
 <h5>
-ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
+ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
 
 </div>
 
 
 <div class="row col-12">
-    <img src="teaser.jpg" alt="Teaser" style="max-width: 100%;"/>
+    <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
 
     <p class="imagecaption">
-        Inverse reconstruction of a scene with complex lighting and heterogeneous structure. Given the initialization (a), we seek to reconstruct the target (b) involving normal-mapped surface variation and roughness changes on the fish sculpture, and the addition of a plant based on triangular geometry. Using three rendered views of the target, we apply our proposed path replay backpropagation (PRB) (c) and a linear-time version of radiative backpropagation (RB) [Nimier-David et al. 2020] (d) to reconstruct the modified sculpture and a heterogeneous medium approximating the plant. Our method computes unbiased gradients and is able to converge to a higher-quality solution at equal time. The second and third rows show insets and PRB's convergence over time.
+        Image-based shape and texture reconstruction of a statue given 32 (synthetic) reference images (a) and known environment illumination. We use differentiable rendering to jointly optimize a signed distance representation of the geometry and albedo texture by minimizing the L 1 loss between the rendered and the reference images. Our method correctly accounts for discontinuities and we therefore do not require ad-hoc object mask or silhouette  supervision. We visualize the reconstructed surface (b) and the re-rendered textured object (c). The view and illumination condition in (b) and (c) are different from the ones used during optimization. In (d) we render the ground truth triangle mesh.
     </p>
 </div>
 
@@ -85,7 +85,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
     <h4>Abstract</h4>
     <div>
         <p>
-            Differentiable physically-based rendering has become an indispensable tool for solving inverse problems involving light. Most applications in this area jointly optimize a large set of scene parameters to minimize an objective function, in which case reverse-mode differentiation is the method of choice for obtaining parameter gradients. However, existing techniques that perform the necessary differentiation step suffer from either statistical bias or a prohibitive cost in terms of memory and computation time. For example, standard techniques for automatic differentiation based on program transformation or Wengert tapes lead to impracticably large memory usage when applied to physically-based rendering algorithms. A recently proposed adjoint method by Nimier-David et al. 2020 reduces this to a constant memory footprint, but the computation time for unbiased gradient estimates then becomes quadratic in the number of scattering events along a light path. This is problematic when the scene contains highly scattering materials like participating media. In this paper, we propose a new unbiased backpropagation algorithm for rendering that only requires constant memory, and whose computation time is linear in the number of scattering events (i.e., just like path tracing). Our approach builds on the invertibility of the local Jacobian at scattering interactions to recover the various quantities needed for reverse-mode differentiation. Our method also extends to specular materials such as smooth dielectrics and conductors that cannot be handled by prior work.
+            Physically-based differentiable rendering has recently emerged as an attractive new technique for solving inverse problems that recover complete 3D scene representations from images. The inversion of shape parameters is of particular interest but also poses severe challenges: shapes are intertwined with visibility, whose discontinuous nature introduces severe bias in computed derivatives unless costly precautions are taken. Shape representations like triangle meshes suffer from additional difficulties, since the continuous optimization of mesh parameters cannot introduce topological changes. One common solution to these difficulties entails representing shapes using signed distance functions (SDFs) and gradually adapting their zero level set during optimization. Previous differentiable rendering of SDFs did not fully account for visibility gradients and required the use of mask or silhouette supervision, or discretization into a triangle mesh. In this article, we show how to extend the commonly used sphere tracing algorithm so that it additionally outputs a reparameterization that provides the means to compute accurate shape parameter derivatives. At a high level, this resembles techniques for differentiable mesh rendering, though we show that the SDF representation admits a particularly efficient reparameterization that outperforms prior work. Our experiments demonstrate the reconstruction of (synthetic) objects without complex regularization or priors, using only a per-pixel RGB loss.
         </p>
     </div>
 </div>
@@ -95,9 +95,8 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
 
     <div class="embed-responsive embed-responsive-16by9">
         <video controls="controls" style="width: 100%;">
-            <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2021PathReplay.mp4" type="video/mp4" />
+            <source src="http://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2022sdf.mp4" type="video/mp4" />
             <p>Your browser does not support playing this video. Please download the video below.</p>
-            <track label="English" kind="subtitles" srclang="en" src="prb-talk.vtt">
         </video>
     </div>
 
@@ -111,8 +110,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
         <ul>
             <li>Publication:
                 <ul>
-                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2021PathReplay_2.pdf">Paper</a></li>
-                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2021PathReplay_1.pdf">Supplemental material</a></li>
+                    <li class="pdf"><a href="http://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2022sdf_1.pdf">Paper</a></li>
                 </ul>
             </li>
 
@@ -128,8 +126,8 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
     <h4>Text Reference</h4>
     <div>
     <p>
-        Delio Vicini,         Sébastien Speierer,         Wenzel Jakob.        Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time.
-        <em>ACM Transactions on Graphics (Proceedings of <b>SIGGRAPH</b>)</em>, 40(4), August 2021.
+        Delio Vicini,         Sébastien Speierer,         Wenzel Jakob.        Differentiable Signed Distance Function Rendering.
+        <em>ACM Transactions on Graphics (Proceedings of <b>SIGGRAPH</b>)</em>, 41(4), July 2022.
     </p>
     </div>
 </div>
@@ -137,18 +135,17 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2021</h5>
 <div class="row">
     <div class="col-12">
     <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@article{Vicini2021PathReplayBackprop,
+        <pre class="bibtex">@article{Vicini2022sdf,
   author  = {Vicini, Delio and Speierer, Sébastien and Jakob, Wenzel},
-  title   = {Path Replay Backpropagation: Differentiating Light Paths using Constant Memory and Linear Time},
+  title   = {Differentiable Signed Distance Function Rendering},
   journal = {Transactions on Graphics (Proceedings of SIGGRAPH)},
-  volume  = {40},
+  volume  = {41},
   number  = {4},
-  year    = {2021},
-  month   = aug,
-  pages   = {108:1--108:14},
-  doi     = {10.1145/3450626.3459804},
-}
-</pre>
+  year    = {2022},
+  month   = jul,
+  pages   = {125:1--125:18},
+  doi     = {10.1145/3528223.3530139}
+}</pre>
     </div>
 </div>
 

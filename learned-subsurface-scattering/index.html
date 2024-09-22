@@ -93,6 +93,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2019</h5>
 <div class="row col-12">
     <h4>Video</h4>
 
+
     <div class="embed-responsive embed-responsive-16by9">
         <video controls="controls" style="width: 100%;">
             <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2019Learned.mp4" type="video/mp4" />
@@ -105,7 +106,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2019</h5>
 
 
 <div class="row col-12">
-    <h4>Downloads</h4>
+    <h4>Downloads & resources</h4>
     <div>
         <ul>
             <li>Publication:
@@ -122,21 +123,23 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2019</h5>
     </div>
 </div>
 
-
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
 <div class="row col-12">
-    <h4>Text Reference</h4>
+    <h4>Text Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p>
-        Delio Vicini,         Vladlen Koltun,         Wenzel Jakob.        A Learned Shape-Adaptive Subsurface Scattering Model.
-        <em>ACM Transactions on Graphics (Proceedings of <b>SIGGRAPH</b>)</em>, 38(4), August 2019.
+    <p id="text_reference">Delio Vicini, Vladlen Koltun, Wenzel Jakob. A Learned Shape-Adaptive Subsurface Scattering Model. <em>ACM Transactions on Graphics (Proceedings of SIGGRAPH)</em>, 38(4), August 2019.
     </p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-    <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@article{Vicini2019LearnedSubsurface,
+    <h4 class="panel-title">BibTex Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@article{Vicini2019LearnedSubsurface,
     author    = {Vicini, Delio and Koltun, Vladlen and Jakob, Wenzel},
     title     = {A Learned Shape-Adaptive Subsurface Scattering Model},
     journal   = {Transactions on Graphics (Proceedings of SIGGRAPH),
@@ -153,7 +156,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2019</h5>
 
         <hr>
         <div id="footer" class="row">
-            <p>&copy; 2023 Delio Vicini</p>
+            <p>&copy; 2024 Delio Vicini</p>
         </div>
     </div>
     <!-- .container -->

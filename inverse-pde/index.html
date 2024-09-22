@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <title>Differentiable Signed Distance Function Rendering</title>
+    <title>Solving Inverse PDE Problems using Monte Carlo Estimators</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
@@ -47,15 +47,15 @@
     <div class="container" style="max-width:900px;">
 
 <div class="row col-12">
-<h2>Differentiable Signed Distance Function Rendering</h2>
+<h2>Solving Inverse PDE Problems using Monte Carlo Estimators</h2>
 </div>
 
 <div class="row col-12">
 <div>
     <span>
-<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+<a href="https://rgl.epfl.ch/people/eyilmazer">Ekrem Fatih Yilmazer</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
     <span>
-<a href="http://rgl.epfl.ch/people/speierers">Sébastien Speierer</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
     <span>
 <a href="http://rgl.epfl.ch/people/wjakob">Wenzel Jakob</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
 </div>
@@ -63,12 +63,12 @@
 
 <div class="row col-12">
     <h6>
-École Polytechnique Fédérale de Lausanne (EPFL)    </h6>
+ <sup><small>1</small></sup>École Polytechnique Fédérale de Lausanne (EPFL), <sup><small>2</small></sup>Google Inc.    </h6>
 </div>
 
 <div class="row">
 <h5>
-ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
+ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia), 2024</h5>
 
 </div>
 
@@ -77,7 +77,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
     <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
 
     <p class="imagecaption">
-        Image-based shape and texture reconstruction of a statue given 32 (synthetic) reference images (a) and known environment illumination. We use differentiable rendering to jointly optimize a signed distance representation of the geometry and albedo texture by minimizing the L 1 loss between the rendered and the reference images. Our method correctly accounts for discontinuities and we therefore do not require ad-hoc object mask or silhouette  supervision. We visualize the reconstructed surface (b) and the re-rendered textured object (c). The view and illumination condition in (b) and (c) are different from the ones used during optimization. In (d) we render the ground truth triangle mesh.
+        We apply our inverse PDE solver to a 2D electrical impedance tomography experiment [Hauptmann et al. 2017], in which an electric current flows through a saline-filled water tank containing conducting objects of different sizes (photographs in middle). The marker in the middle indicates the center. Injecting a current using 2 of 16 uniformly spaced electrodes at the tank boundary generates a measurable voltage difference at the other electrodes, and injecting at various locations produces a matrix 𝑢_ref of measurements. The objective of this inverse problem is to infer the properties of the conductor from this data. We perform a differentiable simulation of this setup to optimize the center and radius of a conducting circle. The frames on the left show the progression of the optimization (columns (a)), while the rightmost two columns reveal how the predicted voltages become increasingly consistent with the measurement (columns (d)).
     </p>
 </div>
 
@@ -85,7 +85,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
     <h4>Abstract</h4>
     <div>
         <p>
-            Physically-based differentiable rendering has recently emerged as an attractive new technique for solving inverse problems that recover complete 3D scene representations from images. The inversion of shape parameters is of particular interest but also poses severe challenges: shapes are intertwined with visibility, whose discontinuous nature introduces severe bias in computed derivatives unless costly precautions are taken. Shape representations like triangle meshes suffer from additional difficulties, since the continuous optimization of mesh parameters cannot introduce topological changes. One common solution to these difficulties entails representing shapes using signed distance functions (SDFs) and gradually adapting their zero level set during optimization. Previous differentiable rendering of SDFs did not fully account for visibility gradients and required the use of mask or silhouette supervision, or discretization into a triangle mesh. In this article, we show how to extend the commonly used sphere tracing algorithm so that it additionally outputs a reparameterization that provides the means to compute accurate shape parameter derivatives. At a high level, this resembles techniques for differentiable mesh rendering, though we show that the SDF representation admits a particularly efficient reparameterization that outperforms prior work. Our experiments demonstrate the reconstruction of (synthetic) objects without complex regularization or priors, using only a per-pixel RGB loss.
+            Partial differential equations can model diverse physical phenomena including heat diffusion, incompressible flows, and electrostatic potentials. Given a description of an object's boundary and interior, traditional methods solve such PDEs by densely meshing the interior and then solving a large and sparse linear system derived from this mesh. Recent grid-free solvers take an alternative approach and avoid this complexity in exchange for randomness: they compute stochastic solution estimates and generally bear a striking resemblance to physically-based rendering algorithms. In this article, we develop algorithms targeting the inverse form of this problem: given an already existing solution of a PDE, we infer parameters characterizing the boundary and interior. In the grid-free setting, there are again significant connections to rendering, and we show how insights from both fields can be combined to compute unbiased derivative estimates that enable gradient-based optimization. In this process, we encounter new challenges that must be addressed to obtain practical solutions. We introduce acceleration and variance reduction strategies and show how to differentiate branching random walks in reverse mode. We finally demonstrate our approach on both simulated data and a real-world electrical impedance tomography experiment, where we reconstruct the position of a conducting object from voltage measurements taken in a saline-filled tank.
         </p>
     </div>
 </div>
@@ -96,16 +96,8 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
 
     <div class="embed-responsive embed-responsive-16by9">
         <video controls="controls" style="width: 100%;">
-            <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2022sdf.mp4" type="video/mp4" />
+            <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Yilmazer2024Solving.mp4" type="video/mp4" />
             <p>Your browser does not support playing this video. Please download the video below.</p>
-        </video>
-    </div>
-
-    <div class="embed-responsive embed-responsive-16by9">
-        <video controls="controls" style="width: 100%;">
-            <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2022SDF.mp4" type="video/mp4" />
-            <p>Your browser does not support playing this video. Please download the video below.</p>
-            <track label="English" kind="subtitles" srclang="en" src="sdf-talk.vtt">
         </video>
     </div>
 
@@ -119,18 +111,14 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
         <ul>
             <li>Publication:
                 <ul>
-                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Vicini2022sdf_1.pdf">Paper</a></li>
+                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Yilmazer2024Solving.pdf">Paper</a></li>
+                    <li class="pdf"><a href="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Yilmazer2024Solving_2.pdf">Supplemental material</a></li>
                 </ul>
             </li>
 
 
 
 
-            <li>Code:
-                <ul>
-                    <li><a href="https://github.com/rgl-epfl/differentiable-sdf-rendering">Implementation (Github)</a></li>
-                </ul>
-            </li>
         </ul>
     </div>
 </div>
@@ -143,7 +131,7 @@ function citation_select(id_name) {
 <div class="row col-12">
     <h4>Text Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p id="text_reference">Delio Vicini, Sébastien Speierer, Wenzel Jakob. Differentiable Signed Distance Function Rendering. <em>ACM Transactions on Graphics (Proceedings of SIGGRAPH)</em>, 41(4), July 2022.
+    <p id="text_reference">Ekrem Fatih Yilmazer, Delio Vicini, Wenzel Jakob. Solving Inverse PDE Problems using Monte Carlo Estimators. <em>ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia)</em>, 43(6), December 2024.
     </p>
     </div>
 </div>
@@ -151,17 +139,16 @@ function citation_select(id_name) {
 <div class="row">
     <div class="col-12">
     <h4 class="panel-title">BibTex Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
-        <pre id="bibtex" class="bibtex">@article{Vicini2022sdf,
-  author  = {Vicini, Delio and Speierer, Sébastien and Jakob, Wenzel},
-  title   = {Differentiable Signed Distance Function Rendering},
-  journal = {Transactions on Graphics (Proceedings of SIGGRAPH)},
-  volume  = {41},
-  number  = {4},
-  year    = {2022},
-  month   = jul,
-  pages   = {125:1--125:18},
-  doi     = {10.1145/3528223.3530139}
-}</pre>
+        <pre id="bibtex" class="bibtex">@article{Yilmazer2024Solving,
+  title    = {Solving Inverse PDE Problems using Monte Carlo Estimators},
+  author   = {Ekrem Fatih Yilmazer and Delio Vicini and Wenzel Jakob},
+  year     = 2024,
+  month    = dec,
+  journal  = {Transactions on Graphics (Proceedings of SIGGRAPH Asia)},
+  volume   = 43,
+  doi      = {10.1145/3687990}
+}
+</pre>
     </div>
 </div>
 

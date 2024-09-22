@@ -93,7 +93,7 @@ Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
 
 
 <div class="row col-12">
-    <h4>Downloads</h4>
+    <h4>Downloads & resources</h4>
     <div>
         <ul>
             <li>Publication:
@@ -109,21 +109,23 @@ Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
     </div>
 </div>
 
-
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
 <div class="row col-12">
-    <h4>Text Reference</h4>
+    <h4>Text Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p>
-        Marco Manzi,         Delio Vicini,         Matthias Zwicker.        Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches.
-        <em>Computer Graphics Forum (Proceedings of Eurographics)</em>,  2016.
+    <p id="text_reference">Marco Manzi, Delio Vicini, Matthias Zwicker. Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches. <em>Computer Graphics Forum (Proceedings of Eurographics)</em>,  2016.
     </p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-    <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@article {Manzi2016denoise,
+    <h4 class="panel-title">BibTex Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@article {Manzi2016denoise,
 	author = {Manzi, Marco and Vicini, Delio and Zwicker, Matthias},
 	title = {Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches},
 	journal = {Computer Graphics Forum (Proceedings of Eurographics},
@@ -141,7 +143,7 @@ Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
 
         <hr>
         <div id="footer" class="row">
-            <p>&copy; 2023 Delio Vicini</p>
+            <p>&copy; 2024 Delio Vicini</p>
         </div>
     </div>
     <!-- .container -->

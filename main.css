@@ -52,6 +52,19 @@ img.thumbnail:hover {
   transition: all ease 150ms;
 }
 
+img.inline {
+  height: 1em;
+  width: auto;
+  vertical-align: sub;
+  padding-bottom: 0px;
+  margin-bottom: 0px
+}
+
+img.inline:hover {
+  transform: scale(1.05);
+  transition: all ease 150ms;
+}
+
 p.imagecaption {
   font-size: 14px;
   font-style: italic;

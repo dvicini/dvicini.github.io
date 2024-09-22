@@ -95,12 +95,14 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia), 2019</h5>
 <div class="row col-12">
     <h4>Video</h4>
 
+
     <div class="embed-responsive embed-responsive-16by9">
         <video controls="controls" style="width: 100%;">
             <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/NimierDavidVicini2019Mitsuba2_1.mp4" type="video/mp4" />
             <p>Your browser does not support playing this video. Please download the video below.</p>
         </video>
     </div>
+
     <div class="embed-responsive embed-responsive-16by9">
         <video controls="controls" style="width: 100%;">
             <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/NimierDavidVicini2019Mitsuba2.mp4" type="video/mp4" />
@@ -113,7 +115,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia), 2019</h5>
 
 
 <div class="row col-12">
-    <h4>Downloads</h4>
+    <h4>Downloads & resources</h4>
     <div>
         <ul>
             <li>Publication:
@@ -130,21 +132,23 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia), 2019</h5>
     </div>
 </div>
 
-
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
 <div class="row col-12">
-    <h4>Text Reference</h4>
+    <h4>Text Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p>
-        Merlin Nimier-David*,         Delio Vicini*,         Tizian Zeltner,         Wenzel Jakob.        Mitsuba 2: A Retargetable Forward and Inverse Renderer.
-        <em>ACM Transactions on Graphics (Proceedings of <b>SIGGRAPH Asia</b>)</em>, 38(6), November 2019.
+    <p id="text_reference">Merlin Nimier-David*, Delio Vicini*, Tizian Zeltner, Wenzel Jakob. Mitsuba 2: A Retargetable Forward and Inverse Renderer. <em>ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia)</em>, 38(6), November 2019.
     </p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-    <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@article{NimierDavidVicini2019Mitsuba2,
+    <h4 class="panel-title">BibTex Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@article{NimierDavidVicini2019Mitsuba2,
     author = {Merlin Nimier-David and Delio Vicini and Tizian Zeltner and Wenzel Jakob}, title = {Mitsuba 2: A Retargetable Forward and Inverse Renderer},
     journal = {Transactions on Graphics (Proceedings of SIGGRAPH Asia)},
     volume = {38},
@@ -158,7 +162,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia), 2019</h5>
 
         <hr>
         <div id="footer" class="row">
-            <p>&copy; 2023 Delio Vicini</p>
+            <p>&copy; 2024 Delio Vicini</p>
         </div>
     </div>
     <!-- .container -->

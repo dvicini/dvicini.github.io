@@ -82,7 +82,7 @@ Master Thesis, ETH Zurich and Disney Research, 2017</h5>
 
 
 <div class="row col-12">
-    <h4>Downloads</h4>
+    <h4>Downloads & resources</h4>
     <div>
         <ul>
 
@@ -93,21 +93,23 @@ Master Thesis, ETH Zurich and Disney Research, 2017</h5>
     </div>
 </div>
 
-
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
 <div class="row col-12">
-    <h4>Text Reference</h4>
+    <h4>Text Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p>
-        Delio Vicini.        Gradient-Domain Volumetric Path Tracing.
-        <em>Master Thesis, ETH Zurich and Disney Research</em>,  2017.
+    <p id="text_reference">Delio Vicini. Gradient-Domain Volumetric Path Tracing. <em>Master Thesis, ETH Zurich and Disney Research</em>,  2017.
     </p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-    <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@misc{Vicini2017,
+    <h4 class="panel-title">BibTex Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@misc{Vicini2017,
 	author = {Vicini, Delio},
 	title = {Gradient-Domain Volumetric Path Tracing},
 	year = {2017},
@@ -117,7 +119,7 @@ Master Thesis, ETH Zurich and Disney Research, 2017</h5>
 
         <hr>
         <div id="footer" class="row">
-            <p>&copy; 2023 Delio Vicini</p>
+            <p>&copy; 2024 Delio Vicini</p>
         </div>
     </div>
     <!-- .container -->

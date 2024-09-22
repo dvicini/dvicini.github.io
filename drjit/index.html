@@ -53,13 +53,13 @@
 <div class="row col-12">
 <div>
     <span>
-<a href="http://rgl.epfl.ch/people/wjakob">Wenzel Jakob</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+<a href="http://rgl.epfl.ch/people/wjakob">Wenzel Jakob</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
     <span>
 <a href="http://rgl.epfl.ch/people/speierers">Sébastien Speierer</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
     <span>
 <a href="http://rgl.epfl.ch/people/nroussel">Nicolas Roussel</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
     <span>
-<a href="https://dvicini.github.io">Delio Vicini</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
 </div>
 </div>
 
@@ -95,6 +95,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
 <div class="row col-12">
     <h4>Video</h4>
 
+
     <div class="embed-responsive embed-responsive-16by9">
         <video controls="controls" style="width: 100%;">
             <source src="https://rgl.s3.eu-central-1.amazonaws.com/media/papers/Jakob2022DrJit.mp4" type="video/mp4" />
@@ -107,7 +108,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
 
 
 <div class="row col-12">
-    <h4>Downloads</h4>
+    <h4>Downloads & resources</h4>
     <div>
         <ul>
             <li>Publication:
@@ -128,21 +129,23 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
     </div>
 </div>
 
-
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
 <div class="row col-12">
-    <h4>Text Reference</h4>
+    <h4>Text Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p>
-        Wenzel Jakob,         Sébastien Speierer,         Nicolas Roussel,         Delio Vicini.        Dr.Jit: A Just-In-Time Compiler for Differentiable Rendering.
-        <em>ACM Transactions on Graphics (Proceedings of <b>SIGGRAPH</b>)</em>, 41(4), July 2022.
+    <p id="text_reference">Wenzel Jakob, Sébastien Speierer, Nicolas Roussel, Delio Vicini. Dr.Jit: A Just-In-Time Compiler for Differentiable Rendering. <em>ACM Transactions on Graphics (Proceedings of SIGGRAPH)</em>, 41(4), July 2022.
     </p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-12">
-    <h4 class="panel-title">BibTex Reference</h4>
-        <pre class="bibtex">@article{Jakob2022drjit,
+    <h4 class="panel-title">BibTex Reference <img class="inline" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@article{Jakob2022drjit,
   author  = {Jakob, Wenzel and Speierer, Sébastien and Roussel, Nicolas and Vicini, Delio},
   title   = {Dr.Jit: A Just-In-Time Compiler for Differentiable Rendering},
   journal = {ACM Transactions on Graphics (Proceedings of SIGGRAPH)},
@@ -157,7 +160,7 @@ ACM Transactions on Graphics (Proceedings of SIGGRAPH), 2022</h5>
 
         <hr>
         <div id="footer" class="row">
-            <p>&copy; 2023 Delio Vicini</p>
+            <p>&copy; 2024 Delio Vicini</p>
         </div>
     </div>
     <!-- .container -->

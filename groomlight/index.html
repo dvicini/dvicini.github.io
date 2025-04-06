@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <title>Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches</title>
+    <title>GroomLight: Hybrid Inverse Rendering for Relightable Human Hair Appearance Modeling</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
@@ -47,28 +47,38 @@
     <div class="container" style="max-width:900px;">
 
 <div class="row col-12">
-<h2>Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches</h2>
+<h2>GroomLight: Hybrid Inverse Rendering for Relightable Human Hair Appearance Modeling</h2>
 </div>
 
 <div class="row col-12">
 <div>
     <span>
-<a href="https://studios.disneyresearch.com/people/marco-manzi/">Marco Manzi</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+<a href="https://y-zheng18.github.io/">Yang Zheng</a><sup><small>1,2</small></sup>  &nbsp; &nbsp;</span>
     <span>
-<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>1,2</small></sup>  &nbsp; &nbsp;</span>
+<a href="https://mlchai.com/">Menglei Chai</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
     <span>
-<a href="https://www.cs.umd.edu/~zwicker/">Matthias Zwicker</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://calciferzh.github.io/">Yuxiao Zhou</a><sup><small>2,3</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://justimyhxu.github.io/">Yinghao Xu</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://profiles.stanford.edu/leonidas-guibas">Leonidas Guibas</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://stanford.edu/~gordonwz/">Gordon Wetzstein</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://thabobeeler.com/index.html">Thabo Beeler</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
 </div>
 </div>
 
 <div class="row col-12">
     <h6>
-University of Bern    </h6>
+ <sup><small>1</small></sup>Stanford University, <sup><small>2</small></sup>Google, <sup><small>3</small></sup>ETH Zurich    </h6>
 </div>
 
 <div class="row">
 <h5>
-Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2025</h5>
 
 </div>
 
@@ -77,7 +87,7 @@ Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
     <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
 
     <p class="imagecaption">
-        Our regularized reconstruction for gradient-domain rendering obtains a high-quality image from a noisy base image, the sampled gradients, and auxiliary features (left). We (right) achieve significantly better images than standard L1 reconstruction (middle). The depicted features are, from left to right, the vertical and horizontal gradients, normals, texture values, positions and ambient occlusion values.
+        GroomLight achieves high-fidelity reconstruction of human hair appearance from real-world images, enabling realistic rendering under diverse lighting conditions. Here, in each column, we present relighting results of a same subject under two different environments, using the appearance model reconstructed by GroomLight. One input view with the similar head pose is shown at the top right corner.
     </p>
 </div>
 
@@ -85,7 +95,7 @@ Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
     <h4>Abstract</h4>
     <div>
         <p>
-            We present a novel algorithm to reconstruct high-quality images from sampled pixels and gradients in gradient-domain rendering. Our approach extends screened Poisson reconstruction by adding additional regularization constraints. Our key idea is to exploit local patches in feature images, which contain per-pixels normals, textures, position, etc., to formulate these constraints. We describe a GPU implementation of our approach that runs on the order of seconds on megapixel images. We demonstrate a significant improvement in image quality over screened Poisson reconstruction under the L1 norm. Because we adapt the regularization constraints to the noise level in the input, our algorithm is consistent and converges to the ground truth.
+            We present GroomLight, a novel method for relightable hair appearance modeling from multi-view images. Existing hair capture methods struggle to balance photorealistic rendering with relighting capabilities. Analytical material models, while physically grounded, often fail to fully capture appearance details. Conversely, neural rendering approaches excel at view synthesis but generalize poorly to novel lighting conditions. GroomLight addresses this challenge by combining the strengths of both paradigms. It employs an extended hair BSDF model to capture primary light transport and a light-aware residual model to reconstruct the remaining details. We further propose a hybrid inverse rendering pipeline to optimize both components, enabling high-fidelity relighting, view synthesis, and material editing. Extensive evaluations on real-world hair data demonstrate state-of-the-art performance of our method.
         </p>
     </div>
 </div>
@@ -98,7 +108,8 @@ Computer Graphics Forum (Proceedings of Eurographics), 2016</h5>
         <ul>
             <li>Publication:
                 <ul>
-                    <li class="pdf"><a href="FeaturePatchesForGPTReconstruction.pdf">Paper</a></li>
+                    <li class="pdf"><a href="https://arxiv.org/abs/2503.10597">Paper</a></li>
+                    <li class=""><a href="https://syntec-research.github.io/GroomLight/">Video and additional results (web page)</a></li>
                 </ul>
             </li>
 
@@ -117,7 +128,7 @@ function citation_select(id_name) {
 <div class="row col-12">
     <h4>Text Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
     <div>
-    <p id="text_reference">Marco Manzi, Delio Vicini, Matthias Zwicker. Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches. <em>Computer Graphics Forum (Proceedings of Eurographics)</em>,  2016.
+    <p id="text_reference">Yang Zheng, Menglei Chai, Delio Vicini, Yuxiao Zhou, Yinghao Xu, Leonidas Guibas, Gordon Wetzstein, Thabo Beeler. GroomLight: Hybrid Inverse Rendering for Relightable Human Hair Appearance Modeling. <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</em>,  2025.
     </p>
     </div>
 </div>
@@ -125,19 +136,14 @@ function citation_select(id_name) {
 <div class="row">
     <div class="col-12">
     <h4 class="panel-title">BibTex Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
-        <pre id="bibtex" class="bibtex">@article {Manzi2016denoise,
-	author = {Manzi, Marco and Vicini, Delio and Zwicker, Matthias},
-	title = {Regularizing Image Reconstruction for Gradient-Domain Rendering with Feature Patches},
-	journal = {Computer Graphics Forum (Proceedings of Eurographics},
-	volume = {35},
-	number = {2},
-	issn = {1467-8659},
-	url = {http://dx.doi.org/10.1111/cgf.12829},
-	doi = {10.1111/cgf.12829},
-	pages = {263--273},
-	keywords = {Categories and Subject Descriptors (according to ACM CCS), I.3.3 [Computer Graphics]: Picture/Image Generation�Display Algorithms},
-	year = {2016},
-}</pre>
+        <pre id="bibtex" class="bibtex">@inproceedings{Zheng2025GroomLight,
+    title        = {GroomLight: Hybrid Inverse Rendering for Relightable Human Hair Appearance Modeling},
+    author       = {Yang Zheng and Menglei Chai and Delio Vicini and Yuxiao Zhou and Yinghao Xu and Leonidas Guibas and Gordon Wetzstein and Thabo Beeler},
+    doi          = {10.48550/arXiv.2503.10597},
+    year         = 2025,
+    booktitle    = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+}
+</pre>
     </div>
 </div>
 

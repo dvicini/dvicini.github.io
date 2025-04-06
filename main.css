@@ -65,6 +65,10 @@ img.inline:hover {
   transition: all ease 150ms;
 }
 
+img.copypaste {
+  cursor: pointer;
+}
+
 p.imagecaption {
   font-size: 14px;
   font-style: italic;

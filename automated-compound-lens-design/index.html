@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>Automated design of compound lenses with discrete-continuous optimization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand" style="background-color: #26547f; height: 60px">
+        <div class="container-fluid" style="max-width:900px">
+            <div class="navbar-collapse collapse dual-collapse">
+                <a href="../index.html" style="text-decoration: none; color: white;">
+                    <h1 class="navbar-brand">Delio Vicini</h1>
+                </a>
+                <ul class="nav navbar-nav ms-auto">
+                    <li>
+                        <a href="https://www.linkedin.com/in/delio-vicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="d-flex justify-content-center mx-auto" id="icon" src="../resources/logo-linkedin.png" style="max-width: 30px; " alt=""></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/dvicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-github.png" style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?hl=en&user=5HYHY2UAAAAJ"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-scholar.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DelioVicini"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-twitter.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:900px;">
+
+<div class="row col-12">
+<h2>Automated design of compound lenses with discrete-continuous optimization</h2>
+</div>
+
+<div class="row col-12">
+<div>
+    <span>
+<a href="https://www.cs.cmu.edu/~ateh/">Arjun Teh</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://berndbickel.com//">Bernd Bickel</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.cs.cmu.edu/~igkioule/">Ioannis Gkioulekas</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.cs.cmu.edu/~motoole2/">Matthew O'Toole</a><sup><small>1</small></sup>  &nbsp; &nbsp;</span>
+</div>
+</div>
+
+<div class="row col-12">
+    <h6>
+ <sup><small>1</small></sup>Carnegie Mellon University, <sup><small>2</small></sup>Google    </h6>
+</div>
+
+<div class="row">
+<h5>
+ACM SIGGRAPH Asia Conference Papers, 2025</h5>
+
+</div>
+
+
+<div class="row col-12">
+    <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
+
+    <p class="imagecaption">
+        We develop a method that automatically explores the design space of compound lenses, by using Markov chain Monte Carlo sampling to combine gradient-based optimization with discrete changes to the number and type of lens elements. This combination allows our method to find designs that improve the sharpness and throughput of the initial lens design (in this example, the Nikon Nikkor-S 50mm f/1.4, released in 1962), even after it has been optimized by prior gradient-based methods. Our method achieves image quality comparable to that of an improved lens designed by an expert (in this example, the Canon FD 50mm f/1.2, released in 1980). We report image brightness (top-left number of images) in terms of relative exposure.
+    </p>
+</div>
+
+<div class="row col-12">
+    <h4>Abstract</h4>
+    <div>
+        <p>
+            We introduce a method that automatically and jointly updates both continuous and discrete parameters of a compound lens design, to improve its performance in terms of sharpness, speed, or both. Previous methods for compound lens design use gradient-based optimization to update continuous parameters (e.g., curvature of individual lens elements) of a given lens topology, requiring extensive expert intervention to realize topology changes. By contrast, our method can additionally optimize discrete parameters such as number and type (e.g., singlet or doublet) of lens elements. Our method achieves this capability by combining gradient-based optimization with a tailored Markov chain Monte Carlo sampling algorithm, using transdimensional mutation and paraxial projection operations for efficient global exploration. We show experimentally on a variety of lens design tasks that our method effectively explores an expanded design space of compound lenses, producing better designs than previous methods and pushing the envelope of speed-sharpness tradeoffs achievable by automated lens design.
+        </p>
+    </div>
+</div>
+
+
+
+<div class="row col-12">
+    <h4>Downloads & resources</h4>
+    <div>
+        <ul>
+            <li>Publication:
+                <ul>
+                    <li class="pdf"><a href="https://arxiv.org/abs/2509.23572">Paper</a></li>
+                    <li class="pdf"><a href="https://imaging.cs.cmu.edu/automated_lens_design/index_files/presentation.pdf">Slides</a></li>
+                </ul>
+            </li>
+
+
+
+
+            <li>Code:
+                <ul>
+                    <li><a href="https://github.com/ArjunTeh/automated_lens_design">Implementation (Github)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
+<div class="row col-12">
+    <h4>Text Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
+    <div>
+    <p id="text_reference">Arjun Teh, Delio Vicini, Bernd Bickel, Ioannis Gkioulekas, Matthew O'Toole. Automated design of compound lenses with discrete-continuous optimization. <em>ACM SIGGRAPH Asia Conference Papers</em>,  2025.
+    </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <h4 class="panel-title">BibTex Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@inproceedings{Teh2025automated,
+  title     = {Automated design of compound lenses with discrete-continuous optimization},
+  author    = {Teh, Arjun and Vicini, Delio and Bickel, Bernd and Gkioulekas, Ioannis and O'Toole, Matthew},
+  year      = 2025,
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  series    = {SA Conference Papers '25},
+  doi       = {10.1145/3757377.3763850},
+  isbn      = 9798400721373,
+  articleno = 47,
+  numpages  = 11
+}
+</pre>
+    </div>
+</div>
+
+        <hr>
+        <div id="footer" class="row">
+            <p>&copy; 2025 Delio Vicini</p>
+        </div>
+    </div>
+    <!-- .container -->
+
+
+
+</body>
+</html>

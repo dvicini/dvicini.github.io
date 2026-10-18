@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>VEPHand: View-Efficient Photometric Hand Performance Capture at Scale</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand" style="background-color: #26547f; height: 60px">
+        <div class="container-fluid" style="max-width:900px">
+            <div class="navbar-collapse collapse dual-collapse">
+                <a href="../index.html" style="text-decoration: none; color: white;">
+                    <h1 class="navbar-brand">Delio Vicini</h1>
+                </a>
+                <ul class="nav navbar-nav ms-auto">
+                    <li>
+                        <a href="https://www.linkedin.com/in/delio-vicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="d-flex justify-content-center mx-auto" id="icon" src="../resources/logo-linkedin.png" style="max-width: 30px; " alt=""></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/dvicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-github.png" style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?hl=en&user=5HYHY2UAAAAJ"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-scholar.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DelioVicini"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-twitter.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:900px;">
+
+<div class="row col-12">
+<h2>VEPHand: View-Efficient Photometric Hand Performance Capture at Scale</h2>
+</div>
+
+<div class="row col-12">
+<div>
+    <span>
+<a href="https://zyshen021.github.io/">Zhengyang Shen</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=PxnDELAAAAAJ">Kai-Hung Chang</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://errollw.com/">Erroll Wood</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=LAuCwcgAAAAJ">Deying Kong</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+Bo Peng<sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://sites.google.com/site/bolkartt/">Timo Bolkart</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://ch.linkedin.com/in/jinlong-yang-299804167">Jinlong Yang</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+Bowen Zhao<sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=9uxs6G4AAAAJ">Danhang Tang</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=fkoXlqEAAAAJ">Sasa Petrovic</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://emreaksan.github.io/">Emre Aksan</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=FaLQzRAAAAAJ&hl=en">Jérémy Riviere</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://vchoutas.github.io/">Vassilis Choutas</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small>2</small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=pIUyHQgAAAAJ">Jay Busch</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://shichenliu.github.io/">Shichen Liu</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://people.eecs.berkeley.edu/~zhecao/">Zhe Cao</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+Hugh Liu<sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+JingJing Shen<sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=EEre0EcAAAAJ">Jonathan Taylor</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=DB8aKRgAAAAJ&hl=en">Mingsong Dou</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+</div>
+</div>
+
+<div class="row col-12">
+    <h6>
+Google    </h6>
+</div>
+
+<div class="row">
+<h5>
+arXiv preprint arXiv:2606.15966, 2026</h5>
+
+</div>
+
+
+<div class="row col-12">
+    <img src="teaser.jpg" alt="Teaser" style="max-width: 100%;"/>
+
+    <p class="imagecaption">
+        VEPHand delivers high-fidelity, versatile digital hands at scale. The left panel showcases photorealistic renderings from our large-scale dataset, demonstrating robustness across diverse scenarios including complex single-hand poses, intimate two-hand interactions, and natural hand-object manipulations (e.g., using a phone, grasping a can). The right panel (blue dashed box) provides a technical visualization of our pipeline’s accuracy: for each example, we show the rendered appearance, the detailed surface normals recovered by our neural reconstruction, and the precise alignment of our volumetric registration model (red wireframe overlay) to the captured performance.
+    </p>
+</div>
+
+<div class="row col-12">
+    <h4>Abstract</h4>
+    <div>
+        <p>
+            Robust, high-fidelity 3D hand capture, while fundamental to digital human creation, remains challenging with practical multi-view systems that balance rich photometry with the geometric ambiguities of reconstruction arising from limited viewpoint density. This paper presents an end-to-end pipeline for dynamic hand performance capture and registration, specifically designed for view-efficient setups (~20 views). We address key challenges with two primary innovations. First, to overcome reconstruction difficulties like limited view overlap and background clutter, our mask-free neural method robustly extracts detailed hand geometry and appearance from unmasked images using scene parameterization and scenario-specific density regularization. Second, addressing registration challenges such as accurately capturing non-linear skin deformations and ensuring plausible results during severe self-contact, we propose a physics-inspired framework. It aligns reconstructions to a personalized hand model by optimizing intrinsic volumetric offsets within its canonical tetrahedral mesh, alongside pose parameters. This approach, supported by robust losses and optimization, captures fine surface deformations, ensures plausible results under severe articulation and self-contact, and demonstrates strong tolerance to input noise. We demonstrate the scalability and robustness of our automated pipeline on an extensive dataset of over 12,000 sequences, from which we also derive a large-scale, high-quality synthetic 2D/3D hand dataset for training downstream tasks. This showcases its effectiveness for single hands, intricate two-hand interactions, and natural hand-object manipulations. Our method achieves state-of-the-art reconstruction fidelity in view-efficient, unmasked scenarios and highly accurate registration.
+        </p>
+    </div>
+</div>
+
+
+
+<div class="row col-12">
+    <h4>Downloads & resources</h4>
+    <div>
+        <ul>
+            <li>Publication:
+                <ul>
+                    <li class="pdf"><a href="https://arxiv.org/pdf/2606.15966">Paper</a></li>
+                    <li class=""><a href="https://vephand.github.io/">Project page</a></li>
+                </ul>
+            </li>
+
+
+
+
+        </ul>
+    </div>
+</div>
+
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
+<div class="row col-12">
+    <h4>Text Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
+    <div>
+    <p id="text_reference">Zhengyang Shen, Kai-Hung Chang, Erroll Wood, Deying Kong, Bo Peng, Timo Bolkart, Jinlong Yang, Bowen Zhao, Danhang Tang, Sasa Petrovic, Emre Aksan, Jérémy Riviere, Vassilis Choutas, Delio Vicini, Jay Busch, Shichen Liu, Zhe Cao, Hugh Liu, JingJing Shen, Jonathan Taylor, Mingsong Dou. VEPHand: View-Efficient Photometric Hand Performance Capture at Scale. <em>arXiv preprint arXiv:2606.15966</em>,  2026.
+    </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <h4 class="panel-title">BibTex Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@article{Shen2026VEPHand,
+    title   = {{VEPHand}: View-Efficient Photometric Hand Performance Capture at Scale},
+    author  = {Zhengyang Shen and Kai-Hung Chang and Erroll Wood and Deying Kong and Bo Peng and Timo Bolkart and Jinlong Yang and Bowen Zhao and Danhang Tang and Sasa Petrovic and Emre Aksan and J{\'e}r{\'e}my Riviere and Vassilis Choutas and Delio Vicini and Jay Busch and Shichen Liu and Zhe Cao and Hugh Liu and JingJing Shen and Jonathan Taylor and Mingsong Dou},
+    journal = {arXiv preprint arXiv:2606.15966},
+    year    = {2026},
+}
+</pre>
+    </div>
+</div>
+
+        <hr>
+        <div id="footer" class="row">
+            <p>&copy; 2026 Delio Vicini</p>
+        </div>
+    </div>
+    <!-- .container -->
+
+
+
+</body>
+</html>

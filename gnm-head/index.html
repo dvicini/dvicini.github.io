@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>GNM Head: A Generative aNthropometric Model of the human head</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../main.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand" style="background-color: #26547f; height: 60px">
+        <div class="container-fluid" style="max-width:900px">
+            <div class="navbar-collapse collapse dual-collapse">
+                <a href="../index.html" style="text-decoration: none; color: white;">
+                    <h1 class="navbar-brand">Delio Vicini</h1>
+                </a>
+                <ul class="nav navbar-nav ms-auto">
+                    <li>
+                        <a href="https://www.linkedin.com/in/delio-vicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="d-flex justify-content-center mx-auto" id="icon" src="../resources/logo-linkedin.png" style="max-width: 30px; " alt=""></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/dvicini/"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-github.png" style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?hl=en&user=5HYHY2UAAAAJ"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-scholar.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DelioVicini"  class="nav-link nav-item" style="vertical-align:center;padding-top:20px;">
+                            <img class="img-responsive" src="../resources/logo-twitter.png"style="max-width: 30px;" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:900px;">
+
+<div class="row col-12">
+<h2>GNM Head: A Generative aNthropometric Model of the human head</h2>
+</div>
+
+<div class="row col-12">
+<div>
+    <span>
+<a href="https://ploumpis.com/">Stylianos Ploumpis</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=BGmxwfAAAAAJ">Jan Bednarik</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=4hdhV7AAAAAJ">Gaspard Zoss</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://ruslanguseinov.com/">Ruslan Guseinov</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=7PlgjlAAAAAJ">Luca Prasso</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://prashanth-chandran.github.io/">Prashanth Chandran</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=m69FDD4AAAAJ">Oliver Boyne</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://vchoutas.github.io/">Vasileios Choutas</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://sites.google.com/site/bolkartt/">Timo Bolkart</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=pe5XLTEAAAAJ&hl=en">Daoye Wang</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://mlchai.com/">Menglei Chai</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://sylqiu.github.io/">Di Qiu</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=UXta2uUAAAAJ">Sebastian Winberg</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=uRSdPokAAAAJ">Gilles Rainer</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=jH5o8zgAAAAJ">Lewis Bridgeman</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=mTTsIr4AAAAJ">Leonhard Helminger</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=BL9M_r8AAAAJ">Edo Collins</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://dvicini.github.io">Delio Vicini</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=FaLQzRAAAAAJ&hl=en">Jérémy Riviere</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.linkedin.com/in/yannick-boetzel/">Yannick Boetzel</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=p3Iz81wAAAAJ">Alexander Koumis</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://moschoglou.com/">Stylianos Moschoglou</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=pIUyHQgAAAAJ">Jay Busch</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+Cynthia Herrera<sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+Jacob Still<sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.linkedin.com/in/scottysebert/">Scott Ysebert</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=r3ehstEAAAAJ">Peter Lincoln</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://sergioorts.com/">Sergio Orts Escolano</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://scholar.google.com/citations?user=5D0_pjcAAAAJ">Christoph Rhemann</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://errollw.com/">Erroll Wood</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://thabobeeler.com/index.html">Thabo Beeler</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+    <span>
+<a href="https://www.imperial.ac.uk/people/s.zafeiriou">Stefanos Zafeiriou</a><sup><small></small></sup>  &nbsp; &nbsp;</span>
+</div>
+</div>
+
+<div class="row col-12">
+    <h6>
+Google    </h6>
+</div>
+
+<div class="row">
+<h5>
+arXiv preprint arXiv:2607.23687, 2026</h5>
+
+</div>
+
+
+<div class="row col-12">
+    <img src="teaser.png" alt="Teaser" style="max-width: 100%;"/>
+
+    <p class="imagecaption">
+        
+    </p>
+</div>
+
+<div class="row col-12">
+    <h4>Abstract</h4>
+    <div>
+        <p>
+            Parametric models of the human head are essential tools traditionally used in computer vision and graphics for animation, rendering, and reconstruction. More recently, they serve as crucial conditioning signals within generative large vision models, allowing for tight spatial control of generated imagery. However, existing publicly available models are typically limited in anatomical scope, modeling only outer geometry while ignoring intra-oral and ocular structures, and frequently suffer from reduced geometric quality stemming from low-fidelity input datasets. In this report we introduce a new parametric model dubbed Generative aNthropometric Model (GNM), named as a homophone of the human genome. GNM encompasses the head, face, neck, eyeballs, teeth, and tongue, and it is built on an extensive database of high-resolution 3D scans combined with high-quality anatomy specific artist-made samples. This report details the data provenance, the model architecture including the specialized sub-models for the ocular and intra-oral structures, and shows its SotA performance on fitting target 3D face scans. To foster community innovation, the complete GNM framework is made publicly available.
+        </p>
+    </div>
+</div>
+
+
+
+<div class="row col-12">
+    <h4>Downloads & resources</h4>
+    <div>
+        <ul>
+            <li>Publication:
+                <ul>
+                    <li class="pdf"><a href="https://arxiv.org/pdf/2607.23687">Paper</a></li>
+                </ul>
+            </li>
+
+
+
+
+            <li>Code:
+                <ul>
+                    <li><a href="https://github.com/google/GNM">Implementation (Github)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+function citation_select(id_name) {
+  navigator.clipboard.writeText(document.getElementById(id_name).textContent);
+}
+</script>
+<div class="row col-12">
+    <h4>Text Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('text_reference')" ></img></h4>
+    <div>
+    <p id="text_reference">Stylianos Ploumpis, Jan Bednarik, Gaspard Zoss, Ruslan Guseinov, Luca Prasso, Prashanth Chandran, Oliver Boyne, Vasileios Choutas, Timo Bolkart, Daoye Wang, Menglei Chai, Di Qiu, Sebastian Winberg, Gilles Rainer, Lewis Bridgeman, Leonhard Helminger, Edo Collins, Delio Vicini, Jérémy Riviere, Yannick Boetzel, Alexander Koumis, Stylianos Moschoglou, Jay Busch, Cynthia Herrera, Jacob Still, Scott Ysebert, Peter Lincoln, Sergio Orts Escolano, Christoph Rhemann, Erroll Wood, Thabo Beeler, Stefanos Zafeiriou. GNM Head: A Generative aNthropometric Model of the human head. <em>arXiv preprint arXiv:2607.23687</em>,  2026.
+    </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <h4 class="panel-title">BibTex Reference <img class="inline copypaste" src="../resources/copy-clipboard.png" alt="Copy to clipboard" onclick="citation_select('bibtex')" ></img></h4>
+        <pre id="bibtex" class="bibtex">@article{Ploumpis2026GNM,
+    title   = {{GNM Head}: A Generative aNthropometric Model of the human head},
+    author  = {Stylianos Ploumpis and Jan Bednarik and Gaspard Zoss and Ruslan Guseinov and Luca Prasso and Prashanth Chandran and Oliver Boyne and Vasileios Choutas and Timo Bolkart and Daoye Wang and Menglei Chai and Di Qiu and Sebastian Winberg and Gilles Rainer and Lewis Bridgeman and Leonhard Helminger and Edo Collins and Delio Vicini and J{\'e}r{\'e}my Riviere and Yannick Boetzel and Alexander Koumis and Stylianos Moschoglou and Jay Busch and Cynthia Herrera and Jacob Still and Scott Ysebert and Peter Lincoln and Sergio Orts Escolano and Christoph Rhemann and Erroll Wood and Thabo Beeler and Stefanos Zafeiriou},
+    journal = {arXiv preprint arXiv:2607.23687},
+    year    = {2026},
+}
+</pre>
+    </div>
+</div>
+
+        <hr>
+        <div id="footer" class="row">
+            <p>&copy; 2026 Delio Vicini</p>
+        </div>
+    </div>
+    <!-- .container -->
+
+
+
+</body>
+</html>
